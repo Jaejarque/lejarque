@@ -1,0 +1,433 @@
+---
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<div class="ai-assistant-widget" id="aiAssistantWidget">
+  <!-- Botón flotante para abrir chat -->
+  <button
+    type="button"
+    class="ai-trigger-bubble"
+    id="aiTriggerBubble"
+    aria-label="Abrir asistente técnico de IA"
+    aria-expanded="false"
+    aria-controls="aiChatDrawer"
+  >
+    <svg viewBox="0 0 64 64" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" class="bubble-iso" aria-hidden="true">
+      <polygon points="32,6 54.52,19 54.52,45 32,58 9.48,45 9.48,19" stroke="var(--logo-fg)" />
+      <polygon points="32,19 43.26,25.5 43.26,38.5 32,45 20.74,38.5 20.74,25.5" stroke="var(--accent)" />
+      <circle cx="32" cy="32" r="2.5" fill="var(--accent)" stroke="none" />
+    </svg>
+    <span class="bubble-text mono">Copilot</span>
+  </button>
+
+  <!-- Ventana de Chat Flotante -->
+  <div class="ai-chat-drawer panel" id="aiChatDrawer" hidden role="dialog" aria-modal="false" aria-labelledby="aiChatTitle">
+    <div class="ai-chat-head">
+      <div class="head-info">
+        <div class="title-row">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <h3 id="aiChatTitle" class="chat-title">{t.aiAssistant.title}</h3>
+        </div>
+        <span class="chat-status mono">{t.aiAssistant.status}</span>
+      </div>
+      <button type="button" class="ai-close-btn" id="aiCloseBtn" aria-label="Cerrar chat">✕</button>
+    </div>
+
+    <div class="ai-disclaimer mono">
+      {t.aiAssistant.disclaimer}
+    </div>
+
+    <!-- Hilo de mensajes -->
+    <div class="ai-messages-thread" id="aiMessagesThread">
+      <div class="msg-bubble msg-bot">
+        <p>{t.aiAssistant.welcomeMsg}</p>
+      </div>
+
+      <!-- Preguntas sugeridas -->
+      <div class="suggestions-chips" id="suggestionsContainer">
+        <button type="button" class="sugg-chip" data-query="¿Qué servicios ofrecen en arquitectura de datos?">
+          Arquitectura de datos
+        </button>
+        <button type="button" class="sugg-chip" data-query="¿Cómo abordan la modernización de sistemas legacy?">
+          Migración legacy
+        </button>
+        <button type="button" class="sugg-chip" data-query="Quiero cotizar un software a medida para manufactura">
+          Cotizar manufactura
+        </button>
+        <button type="button" class="sugg-chip" data-query="¿Quién es el dueño del código fuente desarrollado?">
+          Propiedad intelectual
+        </button>
+      </div>
+    </div>
+
+    <!-- Entrada de chat -->
+    <form id="aiChatForm" class="ai-input-form">
+      <input
+        type="text"
+        id="aiChatInput"
+        placeholder={t.aiAssistant.inputPlaceholder}
+        class="ai-input-field"
+        autocomplete="off"
+        maxlength="240"
+      />
+      <button type="submit" class="btn btn-primary ai-send-btn" id="aiSendBtn" aria-label={t.aiAssistant.sendBtn}>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1.5 7L12.5 1.5L7 12.5L5.5 8.5L1.5 7Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .ai-assistant-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 900;
+  }
+
+  /* Burbuja disparadora */
+  .ai-trigger-bubble {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--panel);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    transition: all 0.15s ease;
+  }
+
+  .ai-trigger-bubble:hover {
+    background-color: var(--surface-active);
+    border-color: var(--accent-hi);
+  }
+
+  .bubble-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  /* Ventana de chat */
+  .ai-chat-drawer {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    width: min(380px, calc(100vw - 32px));
+    height: 480px;
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: drawerPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes drawerPop {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .ai-chat-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    background-color: var(--bg);
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    background-color: #34D399;
+    border-radius: 50%;
+    animation: pulseGlow 2s infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .chat-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .chat-status {
+    font-size: 10px;
+    color: var(--text-mute);
+  }
+
+  .ai-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-mute);
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .ai-disclaimer {
+    font-size: 9.5px;
+    padding: 6px 14px;
+    background-color: var(--bg);
+    border-bottom: 1px dashed var(--line);
+    color: var(--text-mute);
+    line-height: 1.35;
+  }
+
+  /* Hilo de mensajes */
+  .ai-messages-thread {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .msg-bubble {
+    padding: 10px 14px;
+    border-radius: var(--radius-xs);
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 90%;
+  }
+
+  .msg-bot {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text-soft);
+    align-self: flex-start;
+  }
+
+  .msg-user {
+    background-color: var(--surface-active);
+    border: 1px solid var(--accent);
+    color: var(--text);
+    align-self: flex-end;
+  }
+
+  .msg-action-btn {
+    margin-top: 8px;
+    display: inline-block;
+    background-color: var(--accent);
+    color: #121417;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: var(--radius-xs);
+    border: none;
+    cursor: pointer;
+  }
+
+  .suggestions-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .sugg-chip {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text-soft);
+    padding: 6px 10px;
+    font-size: 12px;
+    text-align: left;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+
+  .sugg-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Input */
+  .ai-input-form {
+    display: flex;
+    gap: 6px;
+    padding: 10px;
+    border-top: 1px solid var(--line);
+    background-color: var(--bg);
+  }
+
+  .ai-input-field {
+    flex: 1;
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: var(--radius-xs);
+    outline: none;
+  }
+
+  .ai-input-field:focus {
+    border-color: var(--accent);
+  }
+
+  .ai-send-btn {
+    padding: 0 12px;
+    min-height: 34px;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var trigger = document.getElementById("aiTriggerBubble");
+    var drawer = document.getElementById("aiChatDrawer");
+    var closeBtn = document.getElementById("aiCloseBtn");
+    var form = document.getElementById("aiChatForm");
+    var input = document.getElementById("aiChatInput");
+    var thread = document.getElementById("aiMessagesThread");
+    var chips = document.querySelectorAll(".sugg-chip");
+
+    var queryCount = 0;
+    var maxQueries = 10;
+
+    function openChat() {
+      if (!drawer) return;
+      drawer.hidden = false;
+      trigger.setAttribute("aria-expanded", "true");
+      if (input) input.focus();
+    }
+
+    function closeChat() {
+      if (!drawer) return;
+      drawer.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+    }
+
+    if (trigger && drawer && closeBtn) {
+      trigger.addEventListener("click", function () {
+        if (drawer.hidden) openChat();
+        else closeChat();
+      });
+      closeBtn.addEventListener("click", closeChat);
+    }
+
+    // Respuestas técnicas de conocimiento precomputadas
+    function getTechnicalReply(q) {
+      var query = q.toLowerCase();
+
+      if (query.includes("datos") || query.includes("bi") || query.includes("lakehouse") || query.includes("etl")) {
+        return {
+          text: "En arquitectura de datos diseñamos pipelines con DuckDB, ClickHouse, Apache Kafka y dbt, transformando telemetría cruda en modelos analíticos dimensionales de alta velocidad. ¿Deseas cargar este servicio en el cotizador interactivo?",
+          serviceId: "arquitectura-datos-bi",
+        };
+      } else if (query.includes("legacy") || query.includes("moderniz") || query.includes("migra")) {
+        return {
+          text: "Nuestra metodología para sistemas legacy aplica el patrón Strangler Fig: construimos proxies que desacoplan transacciones gradualmente hacia microservicios en Go/TypeScript con tolerancia a fallos, sin interrumpir la operación en producción.",
+          serviceId: "modernizacion-legacy",
+        };
+      } else if (query.includes("manufactura") || query.includes("industrial") || query.includes("iot") || query.includes("fabrica")) {
+        return {
+          text: "Para manufactura implementamos gateways de borde (Edge) en Rust/Go que leen señales PLC/SCADA por MQTT, registran telemetría en microsegundos y la integran al ERP central sin paradas.",
+          serviceId: "software-a-medida",
+        };
+      } else if (query.includes("dueño") || query.includes("propiedad") || query.includes("código") || query.includes("intelectual")) {
+        return {
+          text: "Principio no negociable: el cliente es el propietario absoluto del 100% del código fuente, modelos de datos e infraestructura entregada. Cero licencias cautivas ni vendor lock-in.",
+          serviceId: null,
+        };
+      } else if (query.includes("precio") || query.includes("costo") || query.includes("cotiz") || query.includes("tarifa")) {
+        return {
+          text: "Nuestras tarifas técnicas de referencia son de $45 USD/h [EDITAR], estructuradas por módulos de alcance. Puedes simular de inmediato tu proyecto en nuestro cotizador paramétrico.",
+          serviceId: "custom-software",
+        };
+      } else {
+        return {
+          text: "Entiendo. En L'Ejarque Software nos especializamos en software de misión crítica, ingeniería de datos e integraciones industriales. Te sugiero explorar nuestro cotizador interactivo o consultar nuestra sección de FAQ.",
+          serviceId: "custom-software",
+        };
+      }
+    }
+
+    function appendMessage(text, isUser, serviceId) {
+      var bubble = document.createElement("div");
+      bubble.className = "msg-bubble " + (isUser ? "msg-user" : "msg-bot");
+      bubble.innerHTML = "<p>" + text + "</p>";
+
+      if (serviceId) {
+        var actionBtn = document.createElement("button");
+        actionBtn.type = "button";
+        actionBtn.className = "msg-action-btn mono";
+        actionBtn.textContent = "→ Cargar en el cotizador";
+        actionBtn.addEventListener("click", function () {
+          window.dispatchEvent(new CustomEvent("prefill-cotizador", { detail: { serviceId: serviceId } }));
+          closeChat();
+        });
+        bubble.appendChild(actionBtn);
+      }
+
+      thread.appendChild(bubble);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    function handleSend(userText) {
+      if (!userText.trim()) return;
+      queryCount++;
+
+      if (queryCount > maxQueries) {
+        appendMessage(userText, true);
+        appendMessage("Has alcanzado el límite de consultas de esta sesión técnica. Por favor utiliza nuestro formulario de contacto o consulta la sección de FAQ.", false);
+        return;
+      }
+
+      appendMessage(userText, true);
+      if (input) input.value = "";
+
+      // Simular latencia de inferencia de 350ms
+      setTimeout(function () {
+        var reply = getTechnicalReply(userText);
+        appendMessage(reply.text, false, reply.serviceId);
+      }, 350);
+    }
+
+    if (form && input) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        handleSend(input.value);
+      });
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var q = chip.getAttribute("data-query");
+        if (q) handleSend(q);
+      });
+    });
+  })();
+</script>

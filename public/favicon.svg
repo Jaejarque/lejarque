@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="L’Ejarque Software">
+  <rect width="32" height="32" rx="7" fill="#121417"/>
+  <g fill="none" stroke-width="2.4" stroke-linejoin="miter" stroke-linecap="butt">
+    <polygon points="16,4 26.39,10 26.39,22 16,28 5.61,22 5.61,10" stroke="#FFFFFF"/>
+    <path d="M16 4V16M26.39 22L16 16L5.61 22" stroke="#D98340"/>
+  </g>
+</svg>

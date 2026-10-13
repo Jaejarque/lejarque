@@ -1,0 +1,350 @@
+---
+import siteConfig from "../config/site.config";
+import InteractiveMap from "./InteractiveMap.astro";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": `${siteConfig.brand.name} ${siteConfig.brand.descriptor}`,
+  "legalName": siteConfig.brand.legalName,
+  "description": siteConfig.brand.description,
+  "url": siteConfig.seo.siteUrl,
+  "telephone": siteConfig.contact.phone,
+  "email": siteConfig.contact.email,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": siteConfig.contact.address.street,
+    "addressLocality": siteConfig.contact.address.city,
+    "addressRegion": siteConfig.contact.address.state,
+    "postalCode": siteConfig.contact.address.postalCode,
+    "addressCountry": siteConfig.contact.address.country,
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": siteConfig.contact.address.coordinates.lat,
+    "longitude": siteConfig.contact.address.coordinates.lng,
+  },
+  "openingHours": "Mo-Fr 09:00-18:00",
+  "founder": siteConfig.founders.map((f) => ({
+    "@type": "Person",
+    "name": f.name,
+    "jobTitle": f.role,
+  })),
+};
+---
+
+<section class="section-padding contact-section" id="contacto" aria-labelledby="contactTitle">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">
+        <span>{t.contact.tag}</span>
+      </div>
+      <h2 id="contactTitle">{t.contact.title}</h2>
+      <p>{t.contact.subtitle}</p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Columna Formulario -->
+      <div class="contact-form-col panel">
+        <h3 class="col-title">Enviar requerimiento técnico</h3>
+        <p class="col-desc">Recibirás respuesta técnica de un socio fundador en menos de 24 horas hábiles.</p>
+
+        <form id="contactForm" class="contact-form" novalidate>
+          <div class="input-row">
+            <div class="form-group">
+              <label for="cName" class="form-label">{t.contact.nameLabel} *</label>
+              <input type="text" id="cName" name="name" class="form-input" required placeholder="Ing. Carlos Mendoza" />
+            </div>
+            <div class="form-group">
+              <label for="cEmail" class="form-label">{t.contact.emailLabel} *</label>
+              <input type="email" id="cEmail" name="email" class="form-input" required placeholder="carlos@empresa.com" />
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="form-group">
+              <label for="cCompany" class="form-label">{t.contact.companyLabel} *</label>
+              <input type="text" id="cCompany" name="company" class="form-input" required placeholder="Industrias del Sur S.A." />
+            </div>
+            <div class="form-group">
+              <label for="cType" class="form-label">{t.contact.inquiryTypeLabel}</label>
+              <select id="cType" name="inquiryType" class="form-select">
+                <option value="nuevo-proyecto">Nuevo desarrollo a medida</option>
+                <option value="modernizacion">Modernización / Migración legacy</option>
+                <option value="datos-bi">Arquitectura de datos / BI</option>
+                <option value="auditoria">Auditoría técnica de sistemas</option>
+                <option value="otro">Otra consulta técnica</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cMessage" class="form-label">{t.contact.messageLabel} *</label>
+            <textarea id="cMessage" name="message" rows="4" class="form-textarea" required placeholder="Describa el objetivo del sistema, volumen de usuarios o restricciones tecnológicas..."></textarea>
+          </div>
+
+          <!-- Honeypot anti-spam -->
+          <div style="display:none;" aria-hidden="true">
+            <input type="text" name="botcheck" id="botcheck" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="cSubmitBtn">
+            <span>{t.contact.submitBtn}</span>
+          </button>
+
+          <div id="cFeedback" class="submit-feedback" hidden></div>
+        </form>
+
+        <div class="direct-channels-row">
+          <span class="direct-lbl mono">Canales alternativos:</span>
+          <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" class="link-channel mono">
+            WhatsApp ({siteConfig.contact.whatsappDisplay})
+          </a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a href={`mailto:${siteConfig.contact.email}`} class="link-channel mono">
+            {siteConfig.contact.email}
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna Ubicación y Mapa -->
+      <div class="contact-info-col">
+        <div class="location-details-box panel">
+          <span class="box-tag mono">{t.contact.addressLabel}</span>
+          <h4 class="office-name">{siteConfig.brand.legalName}</h4>
+          <p class="office-address">{siteConfig.contact.address.street}</p>
+          <p class="office-city">{siteConfig.contact.address.city}, {siteConfig.contact.address.country}</p>
+          <p class="office-hours mono text-mute">{siteConfig.contact.hours}</p>
+        </div>
+
+        <!-- Componente de Mapa Interactivo OpenStreetMap -->
+        <InteractiveMap />
+      </div>
+    </div>
+  </div>
+
+  <!-- JSON-LD Datos Estructurados -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</section>
+
+<style>
+  .contact-section {
+    background-color: var(--bg);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media (min-width: 960px) {
+    .contact-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+    }
+  }
+
+  .contact-form-col {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(24px, 4vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .col-title {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .col-desc {
+    font-size: 14px;
+    color: var(--text-mute);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 600px) {
+    .input-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-soft);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: 13.5px;
+    border-radius: var(--radius-xs);
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.15s ease;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .submit-feedback {
+    padding: 12px 16px;
+    border-radius: var(--radius-xs);
+    font-size: 13px;
+  }
+  .submit-feedback.success {
+    background: var(--surface-active);
+    border: 1px solid var(--accent);
+    color: var(--text);
+  }
+  .submit-feedback.error {
+    background: #4A1B1B;
+    border: 1px solid #FF5555;
+    color: #FFFFFF;
+  }
+
+  .direct-channels-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .direct-lbl {
+    color: var(--text-mute);
+  }
+
+  .link-channel {
+    color: var(--accent-ink);
+  }
+  .link-channel:hover {
+    color: var(--accent-hi);
+  }
+
+  .sep {
+    color: var(--line);
+  }
+
+  /* Columna info */
+  .contact-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .location-details-box {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .box-tag {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .office-name {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .office-address,
+  .office-city {
+    font-size: 13.5px;
+    color: var(--text-soft);
+  }
+
+  .office-hours {
+    font-size: 12px;
+    margin-top: 8px;
+    border-top: 1px dashed var(--line);
+    padding-top: 8px;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var cForm = document.getElementById("contactForm");
+    var cBtn = document.getElementById("cSubmitBtn");
+    var cFeedback = document.getElementById("cFeedback");
+
+    if (!cForm || !cBtn || !cFeedback) return;
+
+    cForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var bot = document.getElementById("botcheck");
+      if (bot && bot.value !== "") return;
+
+      var name = document.getElementById("cName").value.trim();
+      var email = document.getElementById("cEmail").value.trim();
+      var msg = document.getElementById("cMessage").value.trim();
+
+      if (!name || !email || !msg) {
+        cFeedback.hidden = false;
+        cFeedback.className = "submit-feedback error";
+        cFeedback.textContent = "Por favor completa todos los campos requeridos.";
+        return;
+      }
+
+      cBtn.disabled = true;
+      cBtn.textContent = "Enviando mensaje...";
+
+      setTimeout(function () {
+        cFeedback.hidden = false;
+        cFeedback.className = "submit-feedback success";
+        cFeedback.textContent = "Mensaje enviado exitosamente. Un ingeniero senior se pondrá en contacto a la brevedad.";
+        cBtn.textContent = "Mensaje Enviado";
+        cForm.reset();
+      }, 700);
+    });
+  })();
+</script>

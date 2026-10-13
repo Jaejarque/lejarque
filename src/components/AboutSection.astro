@@ -1,0 +1,278 @@
+---
+import siteConfig from "../config/site.config";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<section class="section-padding about-section" id="nosotros" aria-labelledby="aboutTitle">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">
+        <span>{t.about.tag}</span>
+      </div>
+      <h2 id="aboutTitle">{t.about.title}</h2>
+      <p>{t.about.subtitle}</p>
+    </div>
+
+    <!-- Misión y Enfoque -->
+    <div class="about-story-grid">
+      <div class="story-col panel">
+        <span class="story-tag mono">HISTORIA Y PROPÓSITO</span>
+        <h3 class="story-title">Ingeniería sin atajos comerciales</h3>
+        <p>
+          Fundada por ingenieros de sistemas con experiencia directa en infraestructura crítica e integraciones complejas, 
+          {siteConfig.brand.name} {siteConfig.brand.descriptor} nació para resolver la desconexión habitual entre el software comercial genérico y las exigencias de disponibilidad, consistencia y trazabilidad de las operaciones industriales.
+        </p>
+        <p>
+          Tratamos cada desarrollo con el mismo rigor que un estudio de ingeniería civil aplica a un puente: cálculo de cargas, tolerancias formales a fallos y documentación milimétrica.
+        </p>
+      </div>
+
+      <div class="story-col panel">
+        <span class="story-tag mono">METODOLOGÍA DE INGENIERÍA</span>
+        <h3 class="story-title">Cómo construimos sistemas</h3>
+        <ul class="methodology-list">
+          <li>
+            <strong class="mono text-accent">RFCs Técnicos:</strong> Cada decisión arquitectónica clave se debate mediante Requests for Comments escritos antes de la implementación.
+          </li>
+          <li>
+            <strong class="mono text-accent">Ciclos Acotados:</strong> Sprints de dos semanas con entregas tangibles desplegadas en ambientes de prueba automatizados.
+          </li>
+          <li>
+            <strong class="mono text-accent">Revisión de Pares:</strong> Todo cambio de código requiere aprobación estricta de al menos dos ingenieros senior.
+          </li>
+          <li>
+            <strong class="mono text-accent">Cero Bloqueo:</strong> Todo el código y la infraestructura se entregan preparados para que cualquier equipo técnico competente pueda continuar su mantenimiento.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Fundadores -->
+    <div class="founders-section">
+      <h3 class="founders-heading mono">{t.about.foundersTitle}</h3>
+
+      <div class="founders-grid">
+        {siteConfig.founders.map((founder, idx) => (
+          <div class="founder-card panel">
+            <div class="founder-avatar-wrap" aria-hidden="true">
+              <svg viewBox="0 0 80 80" width="80" height="80" class="founder-hex-svg">
+                <polygon points="40,6 69,23 69,57 40,74 11,57 11,23" fill="var(--bg)" stroke="var(--accent)" stroke-width="2" />
+                <polygon points="40,16 60,28 60,52 40,64 20,52 20,28" fill="none" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 2" />
+                <text x="40" y="47" text-anchor="middle" fill="var(--logo-fg)" font-family="var(--font-mono)" font-size="19" font-weight="500">
+                  {founder.initials}
+                </text>
+              </svg>
+            </div>
+
+            <div class="founder-info">
+              <div class="founder-title-row">
+                <h4 class="founder-name">{founder.name}</h4>
+                <span class="badge-edit">[EDITAR]</span>
+              </div>
+              <span class="founder-role mono">{founder.role}</span>
+              <p class="founder-bio">{founder.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Formación y acreditaciones -->
+    <div class="accreditations-strip">
+      <div class="acc-item">
+        <span class="acc-val mono">Ingeniería en Sistemas / Cs. de la Computación</span>
+        <span class="acc-lbl">Formación académica de base [EDITAR]</span>
+      </div>
+      <div class="acc-item">
+        <span class="acc-val mono">Certificaciones Cloud & Linux Enterprise</span>
+        <span class="acc-lbl">Acreditaciones técnicas vigentes [EDITAR]</span>
+      </div>
+      <div class="acc-item">
+        <span class="acc-val mono">Prácticas Alineadas a ISO/IEC 25010</span>
+        <span class="acc-lbl">Calidad de software y arquitectura [EDITAR]</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    background-color: var(--panel);
+  }
+
+  .about-story-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  @media (min-width: 860px) {
+    .about-story-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+  }
+
+  .story-col {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    padding: clamp(24px, 4vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-radius: var(--radius-xs);
+  }
+
+  .story-tag {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    font-weight: 500;
+  }
+
+  .story-title {
+    font-size: 1.35rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .methodology-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .methodology-list li {
+    font-size: 13.5px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  /* Fundadores */
+  .founders-section {
+    margin-bottom: 48px;
+  }
+
+  .founders-heading {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-ink);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .founders-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .founders-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .founder-card {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+    border-radius: var(--radius-xs);
+    transition: border-color 0.15s ease;
+  }
+
+  .founder-card:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .founder-avatar-wrap {
+    flex-shrink: 0;
+  }
+
+  .founder-hex-svg {
+    display: block;
+  }
+
+  .founder-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .founder-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .founder-name {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .founder-role {
+    font-size: 11.5px;
+    color: var(--accent);
+    line-height: 1.35;
+  }
+
+  .founder-bio {
+    font-size: 13.5px;
+    color: var(--text-mute);
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+
+  /* Acreditaciones */
+  .accreditations-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 768px) {
+    .accreditations-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+  }
+
+  .acc-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+    border: 1px dashed var(--line);
+    background-color: var(--bg);
+    border-radius: var(--radius-xs);
+  }
+
+  .acc-val {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .acc-lbl {
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+</style>

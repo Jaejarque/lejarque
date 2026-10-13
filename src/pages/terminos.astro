@@ -1,0 +1,106 @@
+---
+import Layout from "../layouts/Layout.astro";
+import siteConfig from "../config/site.config";
+---
+
+<Layout
+  title={`Términos de Servicio y Contratación · ${siteConfig.brand.name} ${siteConfig.brand.descriptor}`}
+  description="Términos de servicio, propiedad intelectual del código fuente y garantías de ingeniería."
+>
+  <div class="legal-page">
+    <div class="container legal-container">
+      <header class="legal-header">
+        <span class="legal-tag mono">DOCUMENTO CONTRACTUAL Y TÉRMINOS</span>
+        <h1 class="legal-title">Términos de Servicio y Principios de Contratación</h1>
+        <p class="legal-subtitle">Vigente a partir de Octubre 2026 · {siteConfig.brand.legalName}</p>
+      </header>
+
+      <div class="legal-body panel">
+        <section class="legal-section">
+          <h2>1. Objeto y Alcance</h2>
+          <p>
+            {siteConfig.brand.legalName} presta servicios especializados de ingeniería de software a medida, arquitectura de datos, integración de sistemas de misión crítica y soporte de ciclo de vida. Las presentes condiciones rigen las estimaciones preliminares y los contratos formales de desarrollo.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>2. Carácter de las Estimaciones del Cotizador</h2>
+          <p>
+            Los rangos de inversión, plazos y horas calculados en la herramienta interactiva de cotización en este sitio web tienen carácter de estimación orientativa basada en modelos paramétricos históricos. No constituyen una oferta contractual vinculante hasta la firma formal de una Propuesta Técnica y Económica tras la fase de descubrimiento.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>3. Propiedad Intelectual del Código Fuente</h2>
+          <p>
+            Es principio central de nuestra firma que el cliente ostente la propiedad absoluta e irrevocable del 100% de los entregables desarrollados, incluyendo código fuente, esquemas de bases de datos, diagramas de arquitectura y scripts de infraestructura, una vez cancelados los hitos acordados. Cero cláusulas de licenciamiento cautivo.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>4. Garantía de Calidad y Corrección de Defectos</h2>
+          <p>
+            Todo proyecto desplegado en producción cuenta con una garantía estándar de 90 días naturales posteriores a la homologación, durante la cual cualquier discrepancia respecto a la especificación técnica aprobada será corregida sin costo adicional.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .legal-page {
+    padding-top: 56px;
+    padding-bottom: 96px;
+  }
+
+  .legal-container {
+    max-width: 860px;
+  }
+
+  .legal-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+  }
+
+  .legal-tag {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .legal-title {
+    font-size: var(--text-2xl);
+    color: var(--text);
+    margin: 12px 0 8px;
+    font-weight: 500;
+  }
+
+  .legal-subtitle {
+    font-size: 13px;
+    color: var(--text-mute);
+  }
+
+  .legal-body {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(24px, 4vw, 44px);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .legal-section h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .legal-section p {
+    font-size: 14.5px;
+    color: var(--text-soft);
+    line-height: 1.65;
+  }
+</style>

@@ -1,0 +1,111 @@
+---
+import principlesData from "../content/principles.json";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<section class="section-padding principles-section" id="principios" aria-labelledby="principlesTitle">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">
+        <span>{t.principles.tag}</span>
+      </div>
+      <h2 id="principlesTitle">{t.principles.title}</h2>
+      <p>{t.principles.subtitle}</p>
+    </div>
+
+    <!-- Rejilla de 5 principios técnicos -->
+    <div class="principles-grid">
+      {principlesData.map((p) => (
+        <article class="principle-item panel">
+          <div class="p-num-wrap">
+            <span class="p-num mono">{p.number}</span>
+            <span class="p-line" aria-hidden="true"></span>
+          </div>
+          <h3 class="p-title">{p.title}</h3>
+          <p class="p-desc">{p.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .principles-section {
+    background-color: var(--bg);
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 640px) {
+    .principles-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .principles-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    /* El último principio ocupa dos columnas para balance visual */
+    .principle-item:last-child {
+      grid-column: span 2;
+    }
+  }
+
+  .principle-item {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(24px, 3.5vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-radius: var(--radius-xs);
+    transition: border-color 0.15s ease;
+  }
+
+  .principle-item:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .p-num-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .p-num {
+    font-size: 15px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .p-line {
+    height: 1px;
+    background-color: var(--line);
+    flex: 1;
+  }
+
+  .p-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  .p-desc {
+    font-size: 14px;
+    color: var(--text-mute);
+    line-height: 1.6;
+  }
+</style>

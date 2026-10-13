@@ -1,0 +1,152 @@
+---
+import faqData from "../content/faq.json";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<section class="section-padding faq-section" id="faq" aria-labelledby="faqTitle">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">
+        <span>{t.faq.tag}</span>
+      </div>
+      <h2 id="faqTitle">{t.faq.title}</h2>
+      <p>{t.faq.subtitle}</p>
+    </div>
+
+    <!-- Acordeón accesible de preguntas frecuentes -->
+    <div class="faq-accordion-list" role="region" aria-label="Preguntas frecuentes sobre contratación">
+      {faqData.map((item, idx) => (
+        <div class="faq-item" id={`faq-wrap-${item.id}`}>
+          <h3>
+            <button
+              type="button"
+              class="faq-trigger-btn"
+              id={`faq-btn-${item.id}`}
+              aria-expanded="false"
+              aria-controls={`faq-answer-${item.id}`}
+            >
+              <span class="faq-num mono">0{idx + 1}</span>
+              <span class="faq-question-text">{item.question}</span>
+              <svg class="faq-chevron" viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+              </svg>
+            </button>
+          </h3>
+          <div
+            class="faq-answer-panel"
+            id={`faq-answer-${item.id}`}
+            role="region"
+            aria-labelledby={`faq-btn-${item.id}`}
+            hidden
+          >
+            <div class="answer-inner">
+              <p>{item.answer}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    background-color: var(--panel);
+  }
+
+  .faq-accordion-list {
+    border-top: 1px solid var(--line);
+    max-width: 920px;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq-trigger-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: clamp(18px, 2.8vw, 26px) 0;
+    display: grid;
+    grid-template-columns: 36px 1fr 24px;
+    gap: 16px;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text);
+    transition: color 0.15s ease;
+  }
+
+  .faq-trigger-btn:hover {
+    color: var(--accent);
+  }
+
+  .faq-num {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .faq-question-text {
+    font-size: clamp(16px, 1.8vw, 18px);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .faq-chevron {
+    transition: transform 0.2s ease;
+    color: var(--text-mute);
+  }
+
+  .faq-trigger-btn[aria-expanded="true"] .faq-chevron {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+
+  .faq-trigger-btn[aria-expanded="true"] .faq-question-text {
+    color: var(--accent);
+  }
+
+  .faq-answer-panel {
+    padding-bottom: 24px;
+    padding-left: 52px;
+  }
+
+  .answer-inner p {
+    font-size: 14.5px;
+    color: var(--text-soft);
+    line-height: 1.65;
+    max-width: 65ch;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var triggers = document.querySelectorAll(".faq-trigger-btn");
+
+    triggers.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var isExpanded = btn.getAttribute("aria-expanded") === "true";
+        var panelId = btn.getAttribute("aria-controls");
+        var panel = document.getElementById(panelId);
+        if (!panel) return;
+
+        if (isExpanded) {
+          btn.setAttribute("aria-expanded", "false");
+          panel.hidden = true;
+        } else {
+          btn.setAttribute("aria-expanded", "true");
+          panel.hidden = false;
+        }
+      });
+    });
+  })();
+</script>

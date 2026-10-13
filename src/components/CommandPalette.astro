@@ -1,0 +1,319 @@
+---
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<div class="cmd-palette-backdrop" id="cmdPaletteBackdrop" role="dialog" aria-modal="true" aria-label="Paleta de comandos">
+  <div class="cmd-palette-box panel">
+    <div class="cmd-search-header">
+      <svg class="cmd-search-icon" viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" />
+        <path d="M11 11L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+      </svg>
+      <input
+        type="text"
+        id="cmdPaletteInput"
+        placeholder={t.cmdPalette.placeholder}
+        class="cmd-input"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="cmd-esc-kbd mono" id="cmdEscKbd" role="button" tabindex="0" title="Cerrar paleta">ESC</kbd>
+    </div>
+
+    <div class="cmd-results-list" id="cmdResultsList" role="menu">
+      <div class="cmd-group">
+        <span class="cmd-group-title mono">{t.cmdPalette.navigate}</span>
+        <button type="button" class="cmd-item" data-action="nav" data-target="#servicios">
+          <span class="cmd-label">01. Servicios de Ingeniería</span>
+          <span class="cmd-shortcut mono">#servicios</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="nav" data-target="#soluciones">
+          <span class="cmd-label">02. Soluciones Industriales</span>
+          <span class="cmd-shortcut mono">#soluciones</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="nav" data-target="#proyectos">
+          <span class="cmd-label">03. Portafolio de Proyectos</span>
+          <span class="cmd-shortcut mono">#proyectos</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="nav" data-target="#proceso">
+          <span class="cmd-label">04. Proceso y Ciclo de Vida</span>
+          <span class="cmd-shortcut mono">#proceso</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="nav" data-target="#cotizador">
+          <span class="cmd-label">05. Cotizador Interactivo</span>
+          <span class="cmd-shortcut mono">#cotizador</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="nav" data-target="/marca">
+          <span class="cmd-label">06. Sistema de Marca & UI Kit</span>
+          <span class="cmd-shortcut mono">/marca</span>
+        </button>
+      </div>
+
+      <div class="cmd-group">
+        <span class="cmd-group-title mono">{t.cmdPalette.theme}</span>
+        <button type="button" class="cmd-item" data-action="theme" data-theme-val="dark">
+          <span class="cmd-label">Activar Modo Oscuro (Grafito / Cobre)</span>
+          <span class="cmd-shortcut mono">Dark</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="theme" data-theme-val="light">
+          <span class="cmd-label">Activar Modo Claro (Blanco / Cobre)</span>
+          <span class="cmd-shortcut mono">Light</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="theme" data-theme-val="system">
+          <span class="cmd-label">Seguir preferencia del sistema</span>
+          <span class="cmd-shortcut mono">Auto</span>
+        </button>
+      </div>
+
+      <div class="cmd-group">
+        <span class="cmd-group-title mono">{t.cmdPalette.language}</span>
+        <button type="button" class="cmd-item" data-action="lang" data-lang="es">
+          <span class="cmd-label">Cambiar idioma a Español</span>
+          <span class="cmd-shortcut mono">ES</span>
+        </button>
+        <button type="button" class="cmd-item" data-action="lang" data-lang="en">
+          <span class="cmd-label">Switch language to English</span>
+          <span class="cmd-shortcut mono">EN</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cmd-palette-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: var(--modal-backdrop);
+    z-index: 2500;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: clamp(60px, 12vh, 120px);
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cmd-palette-backdrop.is-open {
+    display: flex;
+  }
+
+  .cmd-palette-box {
+    width: 100%;
+    max-width: 580px;
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: cmdPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes cmdPop {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .cmd-search-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cmd-search-icon {
+    color: var(--text-mute);
+    flex-shrink: 0;
+  }
+
+  .cmd-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+  }
+
+  .cmd-esc-kbd {
+    font-size: 10px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text-mute);
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+  }
+  .cmd-esc-kbd:hover {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .cmd-results-list {
+    max-height: 380px;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cmd-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cmd-group-title {
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+  }
+
+  .cmd-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 8px 12px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-soft);
+    font-size: 13px;
+    transition: all 0.12s ease;
+  }
+
+  .cmd-item:hover,
+  .cmd-item:focus {
+    background-color: var(--surface-active);
+    border-color: var(--accent);
+    color: var(--accent);
+    outline: none;
+  }
+
+  .cmd-shortcut {
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var palette = document.getElementById("cmdPaletteBackdrop");
+    var input = document.getElementById("cmdPaletteInput");
+    var escKbd = document.getElementById("cmdEscKbd");
+    var items = document.querySelectorAll(".cmd-item");
+
+    function openPalette() {
+      if (!palette) return;
+      palette.classList.add("is-open");
+      if (input) {
+        input.value = "";
+        filterItems("");
+        input.focus();
+      }
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePalette() {
+      if (!palette) return;
+      palette.classList.remove("is-open");
+      document.body.style.overflow = "";
+    }
+
+    if (escKbd) {
+      escKbd.addEventListener("click", closePalette);
+    }
+
+    // Atajo global Ctrl+K / Cmd+K
+    document.addEventListener("keydown", function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (palette && palette.classList.contains("is-open")) {
+          closePalette();
+        } else {
+          openPalette();
+        }
+      }
+      if (e.key === "Escape" && palette && palette.classList.contains("is-open")) {
+        closePalette();
+      }
+    });
+
+    window.addEventListener("open-command-palette", openPalette);
+
+    if (palette) {
+      palette.addEventListener("click", function (e) {
+        if (e.target === palette) closePalette();
+      });
+    }
+
+    function filterItems(q) {
+      var query = q.toLowerCase();
+      items.forEach(function (it) {
+        var txt = it.textContent.toLowerCase();
+        it.style.display = txt.includes(query) ? "flex" : "none";
+      });
+    }
+
+    if (input) {
+      input.addEventListener("input", function () {
+        filterItems(input.value);
+      });
+    }
+
+    // Ejecutar acciones de los ítems
+    items.forEach(function (it) {
+      it.addEventListener("click", function () {
+        var action = it.getAttribute("data-action");
+        if (action === "nav") {
+          var target = it.getAttribute("data-target");
+          closePalette();
+          if (target.startsWith("#")) {
+            var el = document.querySelector(target);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            window.location.href = target;
+          }
+        } else if (action === "theme") {
+          var themeVal = it.getAttribute("data-theme-val");
+          closePalette();
+          if (themeVal === "system") {
+            document.documentElement.removeAttribute("data-theme");
+            localStorage.removeItem("lejarque_theme");
+          } else {
+            document.documentElement.setAttribute("data-theme", themeVal);
+            localStorage.setItem("lejarque_theme", themeVal);
+          }
+        } else if (action === "lang") {
+          var l = it.getAttribute("data-lang");
+          closePalette();
+          localStorage.setItem("lejarque_lang", l);
+          var url = new URL(window.location.href);
+          url.searchParams.set("lang", l);
+          window.location.href = url.toString();
+        }
+      });
+    });
+  })();
+</script>

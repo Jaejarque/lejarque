@@ -1,0 +1,1356 @@
+---
+import pricingData from "../config/pricing.json";
+import siteConfig from "../config/site.config";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<section class="section-padding cotizador-section" id="cotizador" aria-labelledby="cotizadorTitle">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-tag">
+        <span>{t.estimator.tag}</span>
+      </div>
+      <h2 id="cotizadorTitle">{t.estimator.title}</h2>
+      <p>{t.estimator.subtitle}</p>
+    </div>
+
+    <!-- Contenedor principal del Wizard y Panel de Resultados en Tiempo Real -->
+    <div class="wizard-layout-grid">
+      <!-- Columna Izquierda: Asistente de Pasos -->
+      <div class="wizard-card panel">
+        <!-- Barra de Progreso -->
+        <div class="wizard-progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1" id="wizardProgressBar">
+          <div class="progress-fill" id="progressFill" style="width: 16.66%;"></div>
+        </div>
+
+        <div class="wizard-steps-indicator" aria-hidden="true">
+          <span class="step-badge active" data-step-indicator="1">1</span>
+          <span class="step-badge" data-step-indicator="2">2</span>
+          <span class="step-badge" data-step-indicator="3">3</span>
+          <span class="step-badge" data-step-indicator="4">4</span>
+          <span class="step-badge" data-step-indicator="5">5</span>
+          <span class="step-badge" data-step-indicator="6">6</span>
+        </div>
+
+        <!-- Formulario del Asistente -->
+        <form id="cotizadorForm" class="wizard-form" novalidate>
+          <!-- PASO 1: Tipo de Proyecto -->
+          <fieldset class="wizard-step is-active" id="step-1" data-step="1">
+            <legend class="step-legend">
+              <span class="legend-num mono">01</span>
+              <span>Selecciona el tipo de proyecto (múltiples permitidos)</span>
+            </legend>
+            <p class="step-helper">Elige uno o más tipos de software que definen el núcleo arquitectónico.</p>
+
+            <div class="options-grid">
+              {Object.entries(pricingData.projectTypes).map(([key, item]) => (
+                <label class="choice-card">
+                  <input
+                    type="checkbox"
+                    name="projectTypes"
+                    value={item.id}
+                    checked={item.id === "custom-software"}
+                    class="choice-input"
+                  />
+                  <div class="choice-content">
+                    <span class="choice-title">{item.name}</span>
+                    <span class="choice-desc">{item.description}</span>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <!-- PASO 2: Alcance y Complejidad -->
+          <fieldset class="wizard-step" id="step-2" data-step="2">
+            <legend class="step-legend">
+              <span class="legend-num mono">02</span>
+              <span>Alcance, escala y complejidad del sistema</span>
+            </legend>
+
+            <!-- Slider de Módulos -->
+            <div class="form-group range-group">
+              <div class="range-head">
+                <label for="moduleCountSlider" class="form-label">
+                  {t.estimator.modulesLabel}:
+                </label>
+                <span class="slider-val mono" id="moduleCountDisplay">4 módulos</span>
+              </div>
+              <input
+                type="range"
+                id="moduleCountSlider"
+                name="moduleCount"
+                min="1"
+                max="16"
+                value="4"
+                class="range-slider"
+              />
+              <span class="range-caption">Un módulo representa una unidad de dominio funcional completa (ej. inventario, facturación, auditoría).</span>
+            </div>
+
+            <!-- Escala de Usuarios -->
+            <div class="form-group">
+              <label for="userScaleSelect" class="form-label">
+                {t.estimator.usersLabel}:
+              </label>
+              <select id="userScaleSelect" name="estimatedUsers" class="form-select">
+                <option value="50">Hasta 100 usuarios activos concurrentes</option>
+                <option value="500" selected>Hasta 1.000 usuarios (Operación mediana)</option>
+                <option value="5000">Hasta 10.000 usuarios (Escala corporativa)</option>
+                <option value="50000">Más de 100.000 usuarios (Alta concurrencia masiva)</option>
+              </select>
+            </div>
+
+            <!-- Plataforma -->
+            <div class="form-group">
+              <label class="form-label">{t.estimator.platformLabel}:</label>
+              <div class="radio-cards-grid">
+                {Object.entries(pricingData.platforms).map(([k, p], idx) => (
+                  <label class="choice-card choice-radio">
+                    <input
+                      type="radio"
+                      name="platform"
+                      value={p.id}
+                      checked={idx === 0}
+                      class="choice-input"
+                    />
+                    <div class="choice-content">
+                      <span class="choice-title">{p.name}</span>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <!-- Nivel de Complejidad -->
+            <div class="form-group">
+              <label class="form-label">{t.estimator.complexityLabel}:</label>
+              <div class="complexity-cards-grid">
+                {Object.entries(pricingData.complexityLevels).map(([k, c], idx) => (
+                  <label class="choice-card choice-radio">
+                    <input
+                      type="radio"
+                      name="complexity"
+                      value={c.id}
+                      checked={c.id === "intermediate"}
+                      class="choice-input"
+                    />
+                    <div class="choice-content">
+                      <span class="choice-title">{c.name}</span>
+                      <span class="choice-desc">{c.description}</span>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- PASO 3: Extras Arquitectónicos -->
+          <fieldset class="wizard-step" id="step-3" data-step="3">
+            <legend class="step-legend">
+              <span class="legend-num mono">03</span>
+              <span>Componentes adicionales de calidad y seguridad</span>
+            </legend>
+            <p class="step-helper">Selecciona módulos opcionales de ingeniería para reforzar el ciclo de vida.</p>
+
+            <div class="options-grid">
+              {Object.entries(pricingData.extras).map(([k, extra]) => (
+                <label class="choice-card">
+                  <input
+                    type="checkbox"
+                    name="extras"
+                    value={extra.id}
+                    checked={extra.id === "devops-ci-cd" || extra.id === "qa-automated"}
+                    class="choice-input"
+                  />
+                  <div class="choice-content">
+                    <span class="choice-title">{extra.name}</span>
+                    <span class="choice-desc">{extra.description}</span>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <!-- PASO 4: Plazo y Criticidad -->
+          <fieldset class="wizard-step" id="step-4" data-step="4">
+            <legend class="step-legend">
+              <span class="legend-num mono">04</span>
+              <span>Plazo de entrega y régimen de desarrollo</span>
+            </legend>
+
+            <div class="radio-cards-stack">
+              {Object.entries(pricingData.timelines).map(([k, tml], idx) => (
+                <label class="choice-card choice-radio">
+                  <input
+                    type="radio"
+                    name="timeline"
+                    value={tml.id}
+                    checked={tml.id === "standard"}
+                    class="choice-input"
+                  />
+                  <div class="choice-content">
+                    <span class="choice-title">{tml.name}</span>
+                    <span class="choice-desc">
+                      {tml.id === "flexible" && "Mayor holgura en sprints con un 5% de descuento sobre horas de ingeniería."}
+                      {tml.id === "standard" && "Ritmo óptimo de ingeniería en sprints bisemanales con máxima certidumbre."}
+                      {tml.id === "accelerated" && "Dedicación prioritaria con equipo extendido y guardias de avance (+25% de tarifa)."}
+                    </span>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <!-- PASO 5: Soporte Post-Despliegue -->
+          <fieldset class="wizard-step" id="step-5" data-step="5">
+            <legend class="step-legend">
+              <span class="legend-num mono">05</span>
+              <span>Cobertura y evolución post-lanzamiento</span>
+            </legend>
+
+            <div class="radio-cards-stack">
+              {Object.entries(pricingData.supportPlans).map(([k, sup], idx) => (
+                <label class="choice-card choice-radio">
+                  <input
+                    type="radio"
+                    name="supportPlan"
+                    value={sup.id}
+                    checked={sup.id === "basic"}
+                    class="choice-input"
+                  />
+                  <div class="choice-content">
+                    <div class="sup-title-row">
+                      <span class="choice-title">{sup.name}</span>
+                      <span class="sup-cost mono">
+                        {sup.monthlyCostUSD > 0 ? `$${sup.monthlyCostUSD} USD/mes` : "Incluido"}
+                      </span>
+                    </div>
+                    <span class="choice-desc">{sup.description}</span>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <!-- PASO 6: Datos de Contacto y Formalización -->
+          <fieldset class="wizard-step" id="step-6" data-step="6">
+            <legend class="step-legend">
+              <span class="legend-num mono">06</span>
+              <span>Datos para formalizar y enviar tu estimación</span>
+            </legend>
+            <p class="step-helper">Completa tus datos para enviarte el informe técnico detallado.</p>
+
+            <div class="contact-fields-grid">
+              <div class="form-group">
+                <label for="leadName" class="form-label">{t.contact.nameLabel} *</label>
+                <input type="text" id="leadName" name="leadName" class="form-input" required placeholder="Ing. Alejandro Valenzuela" />
+              </div>
+              <div class="form-group">
+                <label for="leadCompany" class="form-label">{t.contact.companyLabel} *</label>
+                <input type="text" id="leadCompany" name="leadCompany" class="form-input" required placeholder="Compañía Metalúrgica S.A." />
+              </div>
+              <div class="form-group">
+                <label for="leadEmail" class="form-label">{t.contact.emailLabel} *</label>
+                <input type="email" id="leadEmail" name="leadEmail" class="form-input" required placeholder="alejandro@empresa.com" />
+              </div>
+              <div class="form-group">
+                <label for="leadPhone" class="form-label">Teléfono / WhatsApp (opcional)</label>
+                <input type="tel" id="leadPhone" name="leadPhone" class="form-input" placeholder="+54 9 11 0000 0000" />
+              </div>
+              <div class="form-group full-col">
+                <label for="leadNotes" class="form-label">Notas o requerimientos específicos</label>
+                <textarea id="leadNotes" name="leadNotes" rows="3" class="form-textarea" placeholder="Describa sistemas legados a integrar o detalles de infraestructura..."></textarea>
+              </div>
+
+              <!-- Campo Trampa Honeypot anti-spam invisible -->
+              <div style="display:none;" aria-hidden="true">
+                <input type="text" name="hp_field" id="hp_field" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="form-group full-col">
+                <label class="consent-label">
+                  <input type="checkbox" name="consent" id="leadConsent" required checked />
+                  <span>Acepto que {siteConfig.brand.name} utilice estos datos exclusivamente para elaborar y remitir la estimación técnica.</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Mensajes de estado -->
+            <div id="leadSubmitFeedback" class="submit-feedback" hidden></div>
+          </fieldset>
+
+          <!-- Navegación de Botones del Wizard -->
+          <div class="wizard-nav-buttons">
+            <button type="button" class="btn btn-outline" id="wizardPrevBtn" disabled>
+              ← Anterior
+            </button>
+            <button type="button" class="btn btn-primary" id="wizardNextBtn">
+              Siguiente →
+            </button>
+            <button type="submit" class="btn btn-primary" id="wizardSubmitBtn" style="display:none;">
+              {t.estimator.sendLead}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Columna Derecha: Panel de Resultados en Tiempo Real -->
+      <aside class="estimation-result-panel panel" aria-live="polite" aria-label="Resultado de la estimación">
+        <div class="panel-top-row">
+          <span class="calc-status mono">RECÁLCULO_ACTIVO</span>
+          <!-- Selector de Moneda USD / ARS -->
+          <div class="currency-toggle" role="group" aria-label="Seleccionar moneda">
+            <button type="button" class="curr-btn is-active" data-curr="USD">USD</button>
+            <button type="button" class="curr-btn" data-curr="ARS">ARS</button>
+          </div>
+        </div>
+
+        <div class="result-highlight-box">
+          <span class="est-label">{t.estimator.estInvestment}</span>
+          <div class="investment-range mono" id="investmentRangeDisplay">
+            $11.800 – $15.100 USD
+          </div>
+          <span class="investment-caption mono" id="exchangeRateCaption">Tarifa base calculada sobre tarifas técnicas [EDITAR]</span>
+        </div>
+
+        <div class="metrics-two-cols">
+          <div class="res-box">
+            <span class="m-title mono">{t.estimator.estWeeks}</span>
+            <span class="m-data mono" id="weeksRangeDisplay">8 a 12 semanas</span>
+          </div>
+          <div class="res-box">
+            <span class="m-title mono">{t.estimator.estHours}</span>
+            <span class="m-data mono" id="hoursDisplay">296 hs</span>
+          </div>
+        </div>
+
+        <!-- Abono soporte -->
+        <div class="support-plan-indicator" id="supportPlanIndicator">
+          <span class="sup-lbl mono">{t.estimator.monthlySupport}:</span>
+          <span class="sup-val mono" id="supportCostDisplay">$650 USD/mes [EDITAR]</span>
+        </div>
+
+        <!-- Desglose por concepto expandible -->
+        <details class="breakdown-drawer" open>
+          <summary class="breakdown-summary mono">Desglose de horas por concepto</summary>
+          <div class="breakdown-table-wrap">
+            <table class="breakdown-table">
+              <thead>
+                <tr>
+                  <th>Concepto</th>
+                  <th class="mono th-num">Horas</th>
+                  <th class="mono th-num">Monto</th>
+                </tr>
+              </thead>
+              <tbody id="breakdownTableBody">
+                <!-- Inyectado dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Botones de Acción -->
+        <div class="estimation-actions-stack">
+          <button type="button" class="btn btn-outline btn-block" id="btnDownloadPdf">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 2V10M8 10L5 7M8 10L11 7M2 13H14" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+            <span>{t.estimator.downloadPdf}</span>
+          </button>
+
+          <button type="button" class="btn btn-subtle btn-block" id="btnCopyShareLink">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.5" />
+              <path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <span id="copyLinkText">{t.estimator.copyLink}</span>
+          </button>
+
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-block" id="btnOpenWhatsapp">
+            <span>{t.estimator.openWhatsapp}</span>
+          </a>
+
+          <button type="button" class="btn btn-subtle btn-block" id="btnScheduleMeeting">
+            <span>{t.estimator.scheduleMeeting}</span>
+          </button>
+        </div>
+
+        <p class="disclaimer-text">
+          {t.estimator.disclaimerNotice}
+        </p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- Modal de reunión (Cal.com / Agenda de descubrimiento) -->
+<div class="modal-backdrop" id="meetingModal" hidden>
+  <div class="modal-box panel" role="dialog" aria-modal="true" aria-labelledby="meetingTitle">
+    <div class="modal-head">
+      <h3 id="meetingTitle" class="modal-title">Sesión de Descubrimiento Técnico</h3>
+      <button type="button" class="modal-close-btn" id="closeMeetingModal" aria-label="Cerrar modal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Agenda una sesión de 45 minutos directamente con uno de nuestros arquitectos de sistemas fundadores:</p>
+      <div class="meeting-mock-card panel">
+        <span class="mono text-accent">DISPONIBILIDAD INMEDIATA</span>
+        <p><strong>Lunes a Viernes · Franjas de 10:00 a 17:00 (UTC-3)</strong></p>
+        <p class="text-mute" style="font-size:13px;">Se generará automáticamente un enlace de Google Meet y se compartirá la minuta técnica de la reunión.</p>
+        <a href={`mailto:${siteConfig.contact.email}?subject=Solicitud%20de%20Reuni%C3%B3n%20T%C3%A9cnica`} class="btn btn-primary" style="margin-top:14px;">
+          Confirmar fecha vía correo
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cotizador-section {
+    background-color: var(--bg);
+  }
+
+  .wizard-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    align-items: start;
+  }
+
+  @media (min-width: 1040px) {
+    .wizard-layout-grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+      gap: 40px;
+    }
+  }
+
+  .wizard-card {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(20px, 3.5vw, 36px);
+  }
+
+  /* Barra de progreso */
+  .wizard-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: var(--line);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background-color: var(--accent);
+    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .wizard-steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+  }
+
+  .step-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--line);
+    background-color: var(--bg);
+    color: var(--text-mute);
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    transition: all 0.15s ease;
+  }
+
+  .step-badge.active {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: #FFFFFF;
+    font-weight: 500;
+  }
+
+  .step-badge.completed {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Pasos del formulario */
+  .wizard-step {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+  }
+
+  .wizard-step.is-active {
+    display: block;
+    animation: fadeInStep 0.2s ease-out;
+  }
+
+  @keyframes fadeInStep {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .step-legend {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .legend-num {
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  .step-helper {
+    font-size: 13.5px;
+    color: var(--text-mute);
+    margin-bottom: 24px;
+  }
+
+  /* Opciones en tarjetas */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @media (min-width: 600px) {
+    .options-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .choice-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid var(--line);
+    background-color: var(--bg);
+    padding: 14px 16px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .choice-card:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .choice-card:has(.choice-input:checked) {
+    border-color: var(--accent);
+    background-color: var(--surface-active);
+  }
+
+  .choice-input {
+    margin-top: 3px;
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .choice-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .choice-title {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .choice-desc {
+    font-size: 12px;
+    color: var(--text-mute);
+    line-height: 1.4;
+  }
+
+  /* Form groups */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-soft);
+  }
+
+  .range-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slider-val {
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .range-slider {
+    width: 100%;
+    accent-color: var(--accent);
+    cursor: pointer;
+    height: 6px;
+    background: var(--line);
+    border-radius: 3px;
+  }
+
+  .range-caption {
+    font-size: 12px;
+    color: var(--text-mute);
+  }
+
+  .form-select,
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: 13.5px;
+    border-radius: var(--radius-xs);
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.15s ease;
+  }
+
+  .form-select:focus,
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .radio-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .complexity-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .radio-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sup-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .sup-cost {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .contact-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 600px) {
+    .contact-fields-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .full-col {
+      grid-column: span 2;
+    }
+  }
+
+  .consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-mute);
+    line-height: 1.4;
+    cursor: pointer;
+  }
+
+  .consent-label input {
+    margin-top: 2px;
+    accent-color: var(--accent);
+  }
+
+  .submit-feedback {
+    padding: 12px 16px;
+    border-radius: var(--radius-xs);
+    font-size: 13px;
+    margin-top: 14px;
+  }
+  .submit-feedback.success {
+    background: var(--surface-active);
+    border: 1px solid var(--accent);
+    color: var(--text);
+  }
+  .submit-feedback.error {
+    background: #4A1B1B;
+    border: 1px solid #FF5555;
+    color: #FFFFFF;
+  }
+
+  /* Botones de navegación */
+  .wizard-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Panel de Resultados a la derecha */
+  .estimation-result-panel {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(20px, 3.5vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 96px;
+  }
+
+  .panel-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .calc-status {
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .currency-toggle {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+  }
+
+  .curr-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-mute);
+    padding: 4px 10px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    cursor: pointer;
+  }
+
+  .curr-btn.is-active {
+    background-color: var(--accent);
+    color: #FFFFFF;
+    font-weight: 500;
+  }
+
+  .result-highlight-box {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    padding: 20px;
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .est-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-mute);
+  }
+
+  .investment-range {
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1.15;
+  }
+
+  .investment-caption {
+    font-size: 10.5px;
+    color: var(--text-mute);
+  }
+
+  .metrics-two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .res-box {
+    border: 1px solid var(--line);
+    background-color: var(--bg);
+    padding: 12px;
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .m-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-mute);
+  }
+
+  .m-data {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .support-plan-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    font-size: 11.5px;
+  }
+
+  .sup-lbl {
+    color: var(--text-mute);
+  }
+
+  .sup-val {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* Desglose desplegable */
+  .breakdown-drawer {
+    border: 1px solid var(--line);
+    background-color: var(--bg);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+  }
+
+  .breakdown-summary {
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--text-soft);
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--panel);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .breakdown-table-wrap {
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  .breakdown-table th,
+  .breakdown-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .breakdown-table th {
+    color: var(--text-mute);
+    font-weight: 500;
+    background-color: var(--bg);
+  }
+
+  .th-num {
+    text-align: right;
+  }
+
+  .breakdown-table td.td-num {
+    text-align: right;
+    font-family: var(--font-mono);
+  }
+
+  /* Botones de acción */
+  .estimation-actions-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .disclaimer-text {
+    font-size: 11px;
+    color: var(--text-mute);
+    line-height: 1.45;
+  }
+
+  /* Modal genérico */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: var(--modal-backdrop);
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+  }
+
+  .modal-box {
+    width: 100%;
+    max-width: 520px;
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: 28px;
+    border-radius: var(--radius-xs);
+  }
+
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .modal-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-mute);
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .meeting-mock-card {
+    margin-top: 16px;
+    padding: 20px;
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+</style>
+
+<script is:inline define:vars={{ pricingData, siteConfig }}>
+  (function () {
+    var form = document.getElementById("cotizadorForm");
+    if (!form) return;
+
+    var currentStep = 1;
+    var maxStep = 6;
+    var currentCurrency = "USD";
+    var exchangeRate = siteConfig.pricingDefaults.usdToArsRate || 1350;
+
+    // Elementos del Wizard
+    var prevBtn = document.getElementById("wizardPrevBtn");
+    var nextBtn = document.getElementById("wizardNextBtn");
+    var submitBtn = document.getElementById("wizardSubmitBtn");
+    var progressFill = document.getElementById("progressFill");
+    var slider = document.getElementById("moduleCountSlider");
+    var sliderDisplay = document.getElementById("moduleCountDisplay");
+
+    // Elementos del Panel de Resultados
+    var investmentRangeDisplay = document.getElementById("investmentRangeDisplay");
+    var exchangeRateCaption = document.getElementById("exchangeRateCaption");
+    var weeksRangeDisplay = document.getElementById("weeksRangeDisplay");
+    var hoursDisplay = document.getElementById("hoursDisplay");
+    var supportCostDisplay = document.getElementById("supportCostDisplay");
+    var breakdownTableBody = document.getElementById("breakdownTableBody");
+
+    // Moneda buttons
+    var currBtns = document.querySelectorAll(".curr-btn");
+
+    // ------------------------------------------------------------------------
+    // CÁLCULO EN CLIENTE
+    // ------------------------------------------------------------------------
+    function getFormData() {
+      var formData = new FormData(form);
+      var projectTypes = formData.getAll("projectTypes");
+      if (projectTypes.length === 0) projectTypes = ["custom-software"];
+
+      var moduleCount = parseInt(formData.get("moduleCount") || "4", 10);
+      var estimatedUsers = parseInt(formData.get("estimatedUsers") || "500", 10);
+      var platform = formData.get("platform") || "web";
+      var complexity = formData.get("complexity") || "intermediate";
+      var extras = formData.getAll("extras");
+      var timeline = formData.get("timeline") || "standard";
+      var supportPlan = formData.get("supportPlan") || "basic";
+
+      return {
+        projectTypes: projectTypes,
+        moduleCount: moduleCount,
+        estimatedUsers: estimatedUsers,
+        platform: platform,
+        complexity: complexity,
+        extras: extras,
+        timeline: timeline,
+        supportPlan: supportPlan,
+        currency: currentCurrency,
+        rate: exchangeRate,
+      };
+    }
+
+    function calculate(data) {
+      var rateUSD = pricingData.currencyDefaults.hourlyRateUSD;
+      var rate = data.rate;
+      var breakdown = [];
+
+      var baseProjectHours = 0;
+      data.projectTypes.forEach(function (typeKey) {
+        var pType = pricingData.projectTypes[typeKey];
+        if (pType) {
+          var h = Math.round(pType.baseHours * pType.multiplier);
+          baseProjectHours += h;
+          breakdown.push({
+            concept: "Base: " + pType.name,
+            hours: h,
+            costUSD: h * rateUSD,
+          });
+        }
+      });
+
+      if (data.projectTypes.length > 1) {
+        var synergy = Math.round(baseProjectHours * 0.15);
+        baseProjectHours -= synergy;
+        breakdown.push({
+          concept: "Sinergia técnica (-15%)",
+          hours: -synergy,
+          costUSD: -synergy * rateUSD,
+        });
+      }
+
+      var modules = Math.max(1, data.moduleCount);
+      var modHours = modules * pricingData.scope.baseHoursPerModule;
+      breakdown.push({
+        concept: "Módulos funcionales (" + modules + "u)",
+        hours: modHours,
+        costUSD: modHours * rateUSD,
+      });
+
+      var userMult = 1.0;
+      for (var i = 0; i < pricingData.scope.userScaleFactors.length; i++) {
+        if (data.estimatedUsers <= pricingData.scope.userScaleFactors[i].maxUsers) {
+          userMult = pricingData.scope.userScaleFactors[i].multiplier;
+          break;
+        }
+      }
+
+      var platConfig = pricingData.platforms[data.platform] || pricingData.platforms.web;
+      var compConfig = pricingData.complexityLevels[data.complexity] || pricingData.complexityLevels.intermediate;
+
+      var coreHours = baseProjectHours + modHours;
+      var scaledHours = Math.round(coreHours * userMult * platConfig.multiplier * compConfig.multiplier);
+      var diffHours = scaledHours - coreHours;
+
+      if (diffHours > 0) {
+        breakdown.push({
+          concept: "Factor escala (" + compConfig.name + ")",
+          hours: diffHours,
+          costUSD: diffHours * rateUSD,
+        });
+      }
+
+      var extrasHours = 0;
+      data.extras.forEach(function (extKey) {
+        var ext = pricingData.extras[extKey];
+        if (ext) {
+          extrasHours += ext.hours;
+          breakdown.push({
+            concept: ext.name,
+            hours: ext.hours,
+            costUSD: ext.hours * rateUSD,
+          });
+        }
+      });
+
+      var totalHours = scaledHours + extrasHours;
+      var tmlConfig = pricingData.timelines[data.timeline] || pricingData.timelines.standard;
+      var tmlDiff = Math.round(totalHours * (tmlConfig.multiplier - 1.0));
+      if (tmlDiff !== 0) {
+        totalHours += tmlDiff;
+        breakdown.push({
+          concept: "Plazo: " + tmlConfig.name,
+          hours: tmlDiff,
+          costUSD: tmlDiff * rateUSD,
+        });
+      }
+
+      var baseCostUSD = totalHours * rateUSD;
+      var minCostUSD = Math.round(baseCostUSD * pricingData.estimationConfig.minRangeFactor);
+      var maxCostUSD = Math.round(baseCostUSD * pricingData.estimationConfig.maxRangeFactor);
+
+      var isArs = data.currency === "ARS";
+      var minCost = isArs ? Math.round(minCostUSD * rate) : minCostUSD;
+      var maxCost = isArs ? Math.round(maxCostUSD * rate) : maxCostUSD;
+
+      var sprintHours = pricingData.estimationConfig.hoursPerSprintWeek;
+      var baseWeeks = Math.max(2, Math.round((totalHours / sprintHours) * tmlConfig.weeksMultiplier));
+      var minWeeks = Math.max(2, Math.round(baseWeeks * 0.85));
+      var maxWeeks = Math.round(baseWeeks * 1.25);
+
+      var supConfig = pricingData.supportPlans[data.supportPlan] || pricingData.supportPlans.none;
+      var supMonthly = supConfig.monthlyCostUSD;
+      var supMonthlyDisplay = isArs ? Math.round(supMonthly * rate) : supMonthly;
+
+      return {
+        totalHours: totalHours,
+        minCost: minCost,
+        maxCost: maxCost,
+        minWeeks: minWeeks,
+        maxWeeks: maxWeeks,
+        supMonthly: supMonthlyDisplay,
+        supName: supConfig.name,
+        currency: data.currency,
+        breakdown: breakdown,
+      };
+    }
+
+    function formatNumber(num) {
+      return new Intl.NumberFormat("es-AR").format(num);
+    }
+
+    function updateUI() {
+      var data = getFormData();
+      var res = calculate(data);
+
+      var sym = res.currency === "ARS" ? "$" : "$";
+      var suffix = res.currency === "ARS" ? " ARS" : " USD";
+
+      investmentRangeDisplay.textContent = sym + formatNumber(res.minCost) + " – " + sym + formatNumber(res.maxCost) + suffix;
+      exchangeRateCaption.textContent = res.currency === "ARS" 
+        ? "Cotización referencial 1 USD = " + formatNumber(exchangeRate) + " ARS [EDITAR]"
+        : "Tarifas técnicas basadas en $45 USD/h [EDITAR]";
+
+      weeksRangeDisplay.textContent = res.minWeeks + " a " + res.maxWeeks + " semanas";
+      hoursDisplay.textContent = res.totalHours + " hs";
+
+      if (res.supMonthly > 0) {
+        supportCostDisplay.textContent = sym + formatNumber(res.supMonthly) + suffix + "/mes";
+      } else {
+        supportCostDisplay.textContent = "Sin abono (Garantía 90d)";
+      }
+
+      // Render tabla breakdown
+      var rowsHtml = "";
+      res.breakdown.forEach(function (b) {
+        var cost = res.currency === "ARS" ? Math.round(b.costUSD * exchangeRate) : b.costUSD;
+        rowsHtml += "<tr>" +
+          "<td>" + b.concept + "</td>" +
+          "<td class='td-num'>" + (b.hours > 0 ? "+" : "") + b.hours + "h</td>" +
+          "<td class='td-num'>" + sym + formatNumber(cost) + "</td>" +
+        "</tr>";
+      });
+      breakdownTableBody.innerHTML = rowsHtml;
+
+      // Actualizar enlace de WhatsApp precargado
+      var waBtn = document.getElementById("btnOpenWhatsapp");
+      if (waBtn) {
+        var msg = "Hola L'Ejarque Software. He configurado una estimación técnica en su web:%0A" +
+          "• Módulos: " + data.moduleCount + "%0A" +
+          "• Complejidad: " + data.complexity + "%0A" +
+          "• Inversión estimada: " + sym + formatNumber(res.minCost) + " a " + sym + formatNumber(res.maxCost) + suffix + "%0A" +
+          "• Plazo: " + res.minWeeks + " a " + res.maxWeeks + " semanas.%0A" +
+          "Deseo coordinar una llamada técnica para revisar especificaciones.";
+        waBtn.href = "https://wa.me/" + siteConfig.contact.whatsapp + "?text=" + msg;
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // PASOS Y NAVEGACIÓN
+    // ------------------------------------------------------------------------
+    function showStep(step) {
+      currentStep = step;
+      document.querySelectorAll(".wizard-step").forEach(function (el) {
+        el.classList.remove("is-active");
+      });
+      var activeEl = document.getElementById("step-" + step);
+      if (activeEl) activeEl.classList.add("is-active");
+
+      // Progreso
+      var pct = ((step) / maxStep) * 100;
+      progressFill.style.width = pct + "%";
+
+      document.querySelectorAll("[data-step-indicator]").forEach(function (badge) {
+        var num = parseInt(badge.getAttribute("data-step-indicator"), 10);
+        badge.classList.remove("active", "completed");
+        if (num === step) badge.classList.add("active");
+        else if (num < step) badge.classList.add("completed");
+      });
+
+      // Botones
+      prevBtn.disabled = step === 1;
+      if (step === maxStep) {
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "inline-flex";
+      } else {
+        nextBtn.style.display = "inline-flex";
+        submitBtn.style.display = "none";
+      }
+    }
+
+    nextBtn.addEventListener("click", function () {
+      if (currentStep < maxStep) {
+        showStep(currentStep + 1);
+      }
+    });
+
+    prevBtn.addEventListener("click", function () {
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+      }
+    });
+
+    slider.addEventListener("input", function () {
+      sliderDisplay.textContent = slider.value + " módulos";
+      updateUI();
+    });
+
+    form.addEventListener("change", updateUI);
+
+    // Conmutador de Moneda
+    currBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        currBtns.forEach(function (b) { b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
+        currentCurrency = btn.getAttribute("data-curr");
+        updateUI();
+      });
+    });
+
+    // ------------------------------------------------------------------------
+    // ACCIONES: Copiar link, Descargar PDF, Agendar reunión
+    // ------------------------------------------------------------------------
+    var btnCopy = document.getElementById("btnCopyShareLink");
+    var copyText = document.getElementById("copyLinkText");
+    if (btnCopy) {
+      btnCopy.addEventListener("click", function () {
+        var data = getFormData();
+        var encoded = encodeURIComponent(JSON.stringify(data));
+        var shareUrl = window.location.origin + window.location.pathname + "#cotizador?config=" + encoded;
+        navigator.clipboard.writeText(shareUrl).then(function () {
+          copyText.textContent = "¡Enlace copiado!";
+          setTimeout(function () { copyText.textContent = t.estimator.copyLink; }, 2000);
+        });
+      });
+    }
+
+    var btnPdf = document.getElementById("btnDownloadPdf");
+    if (btnPdf) {
+      btnPdf.addEventListener("click", function () {
+        window.print();
+      });
+    }
+
+    var btnMeet = document.getElementById("btnScheduleMeeting");
+    var meetModal = document.getElementById("meetingModal");
+    var closeMeet = document.getElementById("closeMeetingModal");
+    if (btnMeet && meetModal && closeMeet) {
+      btnMeet.addEventListener("click", function () { meetModal.hidden = false; });
+      closeMeet.addEventListener("click", function () { meetModal.hidden = true; });
+      meetModal.addEventListener("click", function (e) {
+        if (e.target === meetModal) meetModal.hidden = true;
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // ENVÍO DE LEAD CON HONEYPOT Y VALIDACIÓN
+    // ------------------------------------------------------------------------
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var hp = document.getElementById("hp_field");
+      if (hp && hp.value !== "") {
+        // Spam bot detectado silenciosamente
+        return;
+      }
+
+      var feedback = document.getElementById("leadSubmitFeedback");
+      var name = document.getElementById("leadName").value;
+      var email = document.getElementById("leadEmail").value;
+
+      if (!name || !email) {
+        feedback.hidden = false;
+        feedback.className = "submit-feedback error";
+        feedback.textContent = "Por favor completa tu nombre y correo corporativo.";
+        return;
+      }
+
+      feedback.hidden = false;
+      feedback.className = "submit-feedback success";
+      feedback.textContent = "Estimación enviada con éxito. Hemos registrado tu solicitud y te contactaremos en menos de 24 horas.";
+      submitBtn.disabled = true;
+    });
+
+    // ------------------------------------------------------------------------
+    // EVENTO EXTERNO PARA PRECONFIGURAR DESDE SERVICIOS O IA COPILOT
+    // ------------------------------------------------------------------------
+    window.addEventListener("prefill-cotizador", function (e) {
+      var sId = e.detail && e.detail.serviceId;
+      if (sId) {
+        var input = form.querySelector('input[value="' + sId + '"]');
+        if (input) {
+          input.checked = true;
+          updateUI();
+          var cotSec = document.getElementById("cotizador");
+          if (cotSec) cotSec.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    });
+
+    // Inicializar
+    showStep(1);
+    updateUI();
+  })();
+</script>

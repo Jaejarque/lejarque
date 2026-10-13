@@ -1,0 +1,80 @@
+[
+  {
+    "id": "manufactura",
+    "name": "Manufactura e Industria 4.0",
+    "icon": "factory",
+    "problem": "Silos de información entre la planta de producción (PLCs, sensores industriales) y los sistemas de planificación ERP/MRP, generando paradas no programadas y falta de trazabilidad en lote.",
+    "solution": "Arquitectura de borde (edge computing) con colas MQTT y microservicios locales que procesan telemetría en tiempo real y la sincronizan bidireccionalmente con el sistema central.",
+    "modules": [
+      "Módulo de telemetría de máquinas en milisegundos",
+      "Control de calidad en línea con trazabilidad de lote",
+      "Planificador de mantenimiento preventivo y OEE",
+      "Interfaz de terminales de operario reforzada para planta"
+    ]
+  },
+  {
+    "id": "logistica",
+    "name": "Logística y Cadena de Suministro",
+    "icon": "truck",
+    "problem": "Fragmentación de información entre transportistas, depósitos fiscales y aduanas, resultando en demoras operativas, errores de despacho y pérdida de visibilidad de inventario.",
+    "solution": "Plataforma de orquestación logística distribuida con sincronización en tiempo real de eventos, despacho automatizado por algoritmos deterministas y app offline para transportistas.",
+    "modules": [
+      "Motor de ruteo y asignación inteligente de cargas",
+      "Control de stock multi-depósito con inventario continuo",
+      "Conectores automatizados con navieras y aduanas",
+      "Aplicación móvil para choferes con firma digital y geolocalización"
+    ]
+  },
+  {
+    "id": "agroindustria",
+    "name": "Agroindustria de Precisión",
+    "icon": "sprout",
+    "problem": "Dispersión geográfica extrema de las unidades productivas con conectividad intermitente, dificultando la consolidación de rendimientos, contratos y gestión de acopios.",
+    "solution": "Sistemas de recolección de datos 'offline-first' que sincronizan cuando hay señal disponible, con almacenamiento local cifrado y centralización en data lakehouse analítico.",
+    "modules": [
+      "Gestión de cartas de porte y contratos de granos",
+      "Telemetría de silos y estaciones meteorológicas de campo",
+      "Cuadro de mando de márgenes brutos por lote agronómico",
+      "Liquidación automatizada de cereales y fletes"
+    ]
+  },
+  {
+    "id": "energia-mineria",
+    "name": "Energía y Minería",
+    "icon": "zap",
+    "problem": "Requerimientos extremos de confiabilidad (cero tolerancia a fallos de software), normativas de seguridad ambiental rigurosas y auditorías constantes de consumo.",
+    "solution": "Sistemas de alta disponibilidad con redundancia activa-activa, almacenamiento de series temporales de alta compresión y trazabilidad inmutable de eventos.",
+    "modules": [
+      "Ingesta de series temporales para redes de media y alta tensión",
+      "Monitoreo de seguridad operativa y control ambiental",
+      "Cálculo automatizado de balances energéticos y pérdidas",
+      "Módulo de auditoría regulatoria y exportación certificada"
+    ]
+  },
+  {
+    "id": "salud",
+    "name": "Salud y Gestión Bioquímica",
+    "icon": "heart",
+    "problem": "Normativas estrictas de privacidad de historias clínicas (HIPAA / normativas locales), heterogeneidad de equipos médicos analíticos y riesgos críticos ante latencia.",
+    "solution": "Arquitecturas seguras con cifrado de extremo a extremo, logs de auditoría forense que registran todo acceso a datos médicos e integración con protocolos HL7 y FHIR.",
+    "modules": [
+      "Interoperabilidad de analizadores de laboratorio (LIS)",
+      "Gestión de historias clínicas con cifrado a nivel de campo",
+      "Sistema de trazabilidad de insumos críticos y fármacos",
+      "Portal seguro para pacientes y médicos auditores"
+    ]
+  },
+  {
+    "id": "finanzas",
+    "name": "Finanzas y Transacciones Corporativas",
+    "icon": "coins",
+    "problem": "Picos de concurrencia masiva en cierres contables y liquidaciones bancarias, con requisitos de consistencia ACID estricta y auditorías de fraude en tiempo real.",
+    "solution": "Motores de contabilidad en doble entrada (double-entry ledger) con idempotencia matemática garantizada, almacenamiento inmutable y microservicios gRPC ultra rápidos.",
+    "modules": [
+      "Libro contable inmutable de doble entrada",
+      "Conciliación bancaria y pasarelas de pago automatizadas",
+      "Detección de patrones anómalos en flujos de dinero",
+      "Reportes regulatorios ante bancos centrales y fisco"
+    ]
+  }
+]

@@ -1,0 +1,201 @@
+[
+  {
+    "slug": "plataforma-telemetria-industrial",
+    "title": "Sistema de Telemetría y Supervisión en Borde para Planta Metalúrgica [EDITAR]",
+    "client": "Grupo Industrial Metalúrgico S.A. [EDITAR]",
+    "confidential": false,
+    "industry": "manufactura",
+    "industryLabel": "Manufactura 4.0",
+    "category": "sistemas-distribuidos",
+    "categoryLabel": "Sistemas Distribuidos & Borde",
+    "timeline": "24 semanas [EDITAR]",
+    "team": "1 Arquitecto Principal, 2 Ingenieros de Backend, 1 Especialista IoT [EDITAR]",
+    "summary": "Implementación de una plataforma de borde capaz de procesar 45.000 eventos por segundo provenientes de sensores de fundición y laminar en tiempo real.",
+    "challenge": "La planta experimentaba micro-paradas térmicas no registradas que causaban pérdidas millonarias en mermas. Los datos de los sensores PLCs estaban aislados en redes industriales cerradas y la red externa tenía latencias erráticas.",
+    "solution": "Diseño de un agente en Go/Rust instalado en gateways de planta que comprime y procesa series de tiempo localmente con DuckDB, emitiendo alertas en <50ms y sincronizando lotes vía MQTT securizado hacia un clúster central en ClickHouse.",
+    "metrics": [
+      { "label": "Reducción de micro-paradas térmicas", "value": "41%", "change": "mejora" },
+      { "label": "Latencia p99 de alerta en planta", "value": "38 ms", "change": "tiempo real" },
+      { "label": "Volumen de eventos ingestados diarios", "value": "3.8 B", "change": "escala" },
+      { "label": "Disponibilidad auditada en 12 meses", "value": "99.99%", "change": "tolerancia a fallos" }
+    ],
+    "stack": ["Rust", "Go", "ClickHouse", "MQTT", "Docker", "Grafana", "TimescaleDB"],
+    "svgSeed": "mark-grid-1",
+    "architecture": {
+      "description": "Topología distribuida con procesamiento en el borde (Edge Computing) y repositorio central analítico.",
+      "nodes": [
+        { "id": "n1", "name": "Sensores PLC / SCADA", "role": "Generador de señal física", "x": 10, "y": 20, "connectedTo": ["n2"] },
+        { "id": "n2", "name": "Edge Gateway (Rust)", "role": "Ingesta y filtrado en borde", "x": 35, "y": 20, "connectedTo": ["n3", "n4"] },
+        { "id": "n3", "name": "Buffer Local DuckDB", "role": "Persistencia de emergencia offline", "x": 35, "y": 60, "connectedTo": ["n2"] },
+        { "id": "n4", "name": "Broker MQTT TLS", "role": "Transporte seguro y ordenado", "x": 65, "y": 20, "connectedTo": ["n5"] },
+        { "id": "n5", "name": "Clúster ClickHouse", "role": "Almacenamiento columnar analítico", "x": 90, "y": 20, "connectedTo": ["n6"] },
+        { "id": "n6", "name": "Consola de Supervisión", "role": "Visualización y alertas en vivo", "x": 90, "y": 60, "connectedTo": [] }
+      ]
+    }
+  },
+  {
+    "slug": "core-transaccional-logistico",
+    "title": "Motor de Asignación y Liquidación Logística de Alta Frecuencia [EDITAR]",
+    "client": "Consorcio Logístico del Plata [EDITAR]",
+    "confidential": false,
+    "industry": "logistica",
+    "industryLabel": "Logística & Distribución",
+    "category": "software-medida",
+    "categoryLabel": "Software a Medida",
+    "timeline": "20 semanas [EDITAR]",
+    "team": "1 Arquitecto de Software, 3 Desarrolladores Fullstack, 1 QA Lead [EDITAR]",
+    "summary": "Reemplazo integral de un sistema de despacho manual por un motor determinista que gestiona más de 12.000 movimientos de fletes diarios con liquidación automática.",
+    "challenge": "El cliente acumulaba desfasajes de 4 semanas en la liquidación de transportistas debido a la dispersión de remitos físicos y la falta de validación de tarifas dinámicas por kilometraje.",
+    "solution": "Desarrollo de un core transaccional con PostgreSQL y TypeScript desacoplado en microservicios, con contratos gRPC estrictos, PWA para choferes con captura fotográfica de remitos y conciliación automática.",
+    "metrics": [
+      { "label": "Tiempo de liquidación semanal", "value": "2 hs", "change": "-94% vs histórico" },
+      { "label": "Discrepancias en facturación de fletes", "value": "<0.1%", "change": "precisión" },
+      { "label": "Camiones coordinados en simultáneo", "value": "1.450", "change": "capacidad" },
+      { "label": "Ahorro operativo anual estimado", "value": "$320k USD", "change": "retorno" }
+    ],
+    "stack": ["TypeScript", "Node.js", "PostgreSQL", "gRPC", "Redis", "Astro", "Tailwind"],
+    "svgSeed": "mark-grid-2",
+    "architecture": {
+      "description": "Arquitectura hexagonal orientada a eventos con libro contable inmutable para facturación.",
+      "nodes": [
+        { "id": "n1", "name": "App Móvil Choferes (PWA)", "role": "Captura de remitos y geoposición", "x": 10, "y": 30, "connectedTo": ["n2"] },
+        { "id": "n2", "name": "API Gateway Seguro", "role": "Autenticación mTLS y rate-limit", "x": 35, "y": 30, "connectedTo": ["n3", "n4"] },
+        { "id": "n3", "name": "Motor de Ruteo & Asignación", "role": "Optimización combinatoria", "x": 65, "y": 20, "connectedTo": ["n5"] },
+        { "id": "n4", "name": "Servicio de Conciliación", "role": "Validación de comprobantes y tarifas", "x": 65, "y": 50, "connectedTo": ["n5"] },
+        { "id": "n5", "name": "Ledger Transaccional PostgreSQL", "role": "Registro inmutable con ACID estricto", "x": 90, "y": 35, "connectedTo": [] }
+      ]
+    }
+  },
+  {
+    "slug": "lakehouse-analitico-agro",
+    "title": "Arquitectura Lakehouse para Consolidación de Acopios y Rendimientos Agrícolas [EDITAR]",
+    "client": "Federación Agropecuaria Central [EDITAR]",
+    "confidential": false,
+    "industry": "agroindustria",
+    "industryLabel": "Agroindustria",
+    "category": "datos-bi",
+    "categoryLabel": "Ingeniería de Datos & BI",
+    "timeline": "16 semanas [EDITAR]",
+    "team": "1 Arquitecto de Datos, 2 Data Engineers, 1 Especialista BI [EDITAR]",
+    "summary": "Construcción de una infraestructura unificada de datos para 85 plantas de acopio de cereales, unificando telemetría de humedad, pesajes en balanza y cartas de porte.",
+    "challenge": "La información de las balanzas y caladores de cereal residía en bases de datos Access y SQL Server locales no sincronizadas, impidiendo visibilidad del stock real en puertos de exportación.",
+    "solution": "Implementación de un Lakehouse con DuckDB y ClickHouse federado mediante pipelines dbt, garantizando consistencia eventual en menos de 5 minutos y dashboards ejecutivos en tiempo real.",
+    "metrics": [
+      { "label": "Tiempo de consolidación de stock", "value": "4 min", "change": "antes 48 horas" },
+      { "label": "Toneladas de cereal monitoreadas", "value": "4.2 M Tn", "change": "volumen anual" },
+      { "label": "Costos de infraestructura en nube", "value": "-65%", "change": "eficiencia DuckDB" },
+      { "label": "Precisión en cálculo de mermas", "value": "99.8%", "change": "trazabilidad" }
+    ],
+    "stack": ["Python", "DuckDB", "dbt", "ClickHouse", "FastAPI", "Polars", "Docker"],
+    "svgSeed": "mark-grid-3",
+    "architecture": {
+      "description": "Canalización Medallion (Bronze/Silver/Gold) con validación estricta de Data Contracts.",
+      "nodes": [
+        { "id": "n1", "name": "Balanza & Calador de Granos", "role": "Datos crudos de ingreso de camión", "x": 10, "y": 40, "connectedTo": ["n2"] },
+        { "id": "n2", "name": "Agente Local de Ingesta", "role": "Extracción y cifrado local", "x": 35, "y": 40, "connectedTo": ["n3"] },
+        { "id": "n3", "name": "Capa Bronze (Object Storage)", "role": "Almacenamiento crudo inmutable", "x": 60, "y": 20, "connectedTo": ["n4"] },
+        { "id": "n4", "name": "Transformación dbt + DuckDB", "role": "Limpieza y cálculo de mermas", "x": 60, "y": 60, "connectedTo": ["n5"] },
+        { "id": "n5", "name": "Capa Gold (ClickHouse)", "role": "Consultas analíticas <100ms", "x": 90, "y": 40, "connectedTo": [] }
+      ]
+    }
+  },
+  {
+    "slug": "migracion-core-bancario-nda",
+    "title": "Modernización de Pasarela de Pagos y Compensación Interbancaria [EDITAR]",
+    "client": "Cliente bajo acuerdo de confidencialidad estricta (Entidad Financiera Top 5) [EDITAR]",
+    "confidential": true,
+    "industry": "finanzas",
+    "industryLabel": "Finanzas & Banca",
+    "category": "modernizacion",
+    "categoryLabel": "Modernización & Seguridad",
+    "timeline": "32 semanas [EDITAR]",
+    "team": "2 Arquitectos de Sistemas, 4 Ingenieros Senior de Backend, 1 Auditor de Seguridad [EDITAR]",
+    "summary": "Desacoplamiento y migración de un sistema monolítico bancario con más de 20 años hacia microservicios en contenedores sin interrumpir un solo segundo de compensación.",
+    "challenge": "El mainframe legacy presentaba tiempos de respuesta degradados en horas pico y los costos de mantenimiento de licencias crecían exponencialmente, con un riesgo operativo inaceptable si se detenía.",
+    "solution": "Aplicación del patrón Strangler Fig mediante una capa proxy inteligente de enrutamiento con idempotencia estricta, canalizando gradualmente el 100% de las transacciones hacia nuevos microservicios en Go.",
+    "metrics": [
+      { "label": "Tiempo de parada durante la migración", "value": "0.0 s", "change": "zero-downtime" },
+      { "label": "Rendimiento transaccional sostenido", "value": "18.500 tps", "change": "+340%" },
+      { "label": "Ahorro en costos de licenciamiento", "value": "-72%", "change": "anual" },
+      { "label": "Auditoría de seguridad externa", "value": "Cero hallazgos", "change": "ISO 27001 / PCI" }
+    ],
+    "stack": ["Go", "Kubernetes", "PostgreSQL", "Kafka", "Prometheus", "Vault", "OpenTelemetry"],
+    "svgSeed": "mark-grid-4",
+    "architecture": {
+      "description": "Estrategia Strangler Fig con proxy de coexistencia y replicación bidireccional segura.",
+      "nodes": [
+        { "id": "n1", "name": "Red Interbancaria", "role": "Mensajería ISO 8583 / 20022", "x": 10, "y": 35, "connectedTo": ["n2"] },
+        { "id": "n2", "name": "Proxy Strangler (Go)", "role": "Inspección, enrutamiento e idempotencia", "x": 40, "y": 35, "connectedTo": ["n3", "n4"] },
+        { "id": "n3", "name": "Mainframe Legacy (Fase final)", "role": "Transacciones en transición", "x": 70, "y": 15, "connectedTo": ["n5"] },
+        { "id": "n4", "name": "Nuevos Microservicios (K8s)", "role": "Procesamiento distribuido moderno", "x": 70, "y": 55, "connectedTo": ["n5"] },
+        { "id": "n5", "name": "Ledger Distribuido ACID", "role": "Consistencia transaccional final", "x": 92, "y": 35, "connectedTo": [] }
+      ]
+    }
+  },
+  {
+    "slug": "sistema-monitoreo-red-electrica",
+    "title": "Consola de Supervisión y Balance de Potencia en Redes Eléctricas de Media Tensión [EDITAR]",
+    "client": "Distribuidora Regional de Energía Eléctrica [EDITAR]",
+    "confidential": false,
+    "industry": "energia-mineria",
+    "industryLabel": "Energía & Servicios",
+    "category": "sistemas-distribuidos",
+    "categoryLabel": "Sistemas de Misión Crítica",
+    "timeline": "22 semanas [EDITAR]",
+    "team": "1 Arquitecto de Infraestructura, 2 Desarrolladores de Software, 1 Ingeniero Eléctrico Asesor [EDITAR]",
+    "summary": "Desarrollo de un software de control de despacho eléctrico que modela topologías de subestaciones y calcula pérdidas técnicas en tiempo real.",
+    "challenge": "Las desconexiones de transformadores no se anticipaban, generando cortes en cascada que afectaban a más de 120.000 usuarios y multas severas del ente regulador.",
+    "solution": "Creación de un gemelo digital de la red de media tensión que recibe telemetría cada 5 segundos, calcula flujos de carga y genera alarmas preventivas de desbalance.",
+    "metrics": [
+      { "label": "Tiempo medio de detección de falla (MTTD)", "value": "4.2 seg", "change": "antes 18 min" },
+      { "label": "Disminución de cortes no programados", "value": "29%", "change": "primer año" },
+      { "label": "Subestaciones monitoreadas en paralelo", "value": "142", "change": "cobertura total" },
+      { "label": "Cumplimiento normativo regulatorio", "value": "100%", "change": "sin multas" }
+    ],
+    "stack": ["Python", "Rust", "WebSockets", "TimescaleDB", "Leaflet / GIS", "Docker"],
+    "svgSeed": "mark-grid-5",
+    "architecture": {
+      "description": "Arquitectura reactiva con motor de cálculo de flujos y distribución geoespacial.",
+      "nodes": [
+        { "id": "n1", "name": "Transformadores & Reconectadores", "role": "Protocolo DNP3 / Modbus", "x": 10, "y": 30, "connectedTo": ["n2"] },
+        { "id": "n2", "name": "Concentrador Telemétrico", "role": "Desempaquetado y control de CRC", "x": 35, "y": 30, "connectedTo": ["n3"] },
+        { "id": "n3", "name": "Motor de Gemelo Digital (Rust)", "role": "Cálculo de flujos de carga en memoria", "x": 65, "y": 30, "connectedTo": ["n4", "n5"] },
+        { "id": "n4", "name": "TimescaleDB Cluster", "role": "Almacén histórico de curvas de carga", "x": 65, "y": 65, "connectedTo": [] },
+        { "id": "n5", "name": "Consola Web de Operadores", "role": "Topología SVG interactiva con WebSockets", "x": 92, "y": 30, "connectedTo": [] }
+      ]
+    }
+  },
+  {
+    "slug": "automatizacion-documental-ia",
+    "title": "Pipeline de Extracción e Ingesta Documental Asistido por IA para Ensayos Clínicos [EDITAR]",
+    "client": "Red de Laboratorios Analíticos Sudamérica [EDITAR]",
+    "confidential": false,
+    "industry": "salud",
+    "industryLabel": "Salud & Bioinformática",
+    "category": "automatizacion-ia",
+    "categoryLabel": "Automatización & IA",
+    "timeline": "14 semanas [EDITAR]",
+    "team": "1 Ingeniero de Machine Learning, 1 Desarrollador Backend, 1 Especialista en Seguridad de Datos [EDITAR]",
+    "summary": "Agente de extracción y validación de protocolos de laboratorio en PDF e imágenes con validación cruzada y trazabilidad criptográfica de cada dato extraído.",
+    "challenge": "El personal técnico invertía más de 80 horas semanales transcribiendo manualmente resultados de bioquímica y planillas de cultivo con altas tasas de error de tipografía.",
+    "solution": "Pipeline multimodal con modelos OCR de alta resolución y LLMs locales autoalojados en servidores propios del cliente (sin enviar datos sensibles a nubes públicas), con interface de validación humana acelerada.",
+    "metrics": [
+      { "label": "Tiempo de procesamiento por expediente", "value": "18 seg", "change": "antes 45 min" },
+      { "label": "Tasa de precisión en extracción de valores", "value": "99.4%", "change": "verificado" },
+      { "label": "Horas hombre liberadas mensualmente", "value": "310 hs", "change": "eficiencia" },
+      { "label": "Filtración de datos fuera de intranet", "value": "0 bytes", "change": "100% on-premise" }
+    ],
+    "stack": ["Python", "FastAPI", "Ollama", "PyTorch", "PostgreSQL", "Tesseract", "Docker"],
+    "svgSeed": "mark-grid-6",
+    "architecture": {
+      "description": "Arquitectura de procesamiento confidencial en premisas con modelos autoalojados.",
+      "nodes": [
+        { "id": "n1", "name": "Ingesta de Documentos (PDF/TIFF)", "role": "Recepción cifrada de lotes", "x": 10, "y": 30, "connectedTo": ["n2"] },
+        { "id": "n2", "name": "Preprocesamiento & OCR", "role": "Normalización y binarización de imagen", "x": 35, "y": 30, "connectedTo": ["n3"] },
+        { "id": "n3", "name": "LLM Local On-Premise", "role": "Extracción estructurada con JSON Schema", "x": 65, "y": 20, "connectedTo": ["n4"] },
+        { "id": "n4", "name": "Caja de Validación Humana (HITL)", "role": "Aprobación rápida de casos con duda", "x": 65, "y": 55, "connectedTo": ["n5"] },
+        { "id": "n5", "name": "Sistema LIS / Core Médico", "role": "Consolidación final en base de datos clínica", "x": 92, "y": 35, "connectedTo": [] }
+      ]
+    }
+  }
+]

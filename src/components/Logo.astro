@@ -1,0 +1,87 @@
+---
+import Isotype from "./Isotype.astro";
+import siteConfig from "../config/site.config";
+
+export interface Props {
+  height?: number;
+  showDescriptor?: boolean;
+  href?: string;
+  class?: string;
+}
+
+const {
+  height = 36,
+  showDescriptor = true,
+  href = "/",
+  class: className = "",
+} = Astro.props;
+
+// Proporciones del imagotipo
+const isotipoSize = Math.round(height * 0.9);
+---
+
+<a
+  href={href}
+  class={`brand-imagotipo ${className}`}
+  aria-label={`${siteConfig.brand.name} ${siteConfig.brand.descriptor}, inicio`}
+>
+  <div class="brand-iso">
+    <Isotype size={isotipoSize} />
+  </div>
+  <div class="brand-text">
+    <span class="brand-name">{siteConfig.brand.name}</span>
+    {showDescriptor && (
+      <span class="brand-descriptor">{siteConfig.brand.descriptor}</span>
+    )}
+  </div>
+</a>
+
+<style>
+  .brand-imagotipo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    user-select: none;
+    transition: opacity 0.15s ease;
+    line-height: 1;
+  }
+
+  .brand-imagotipo:hover {
+    opacity: 0.92;
+  }
+
+  .brand-iso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .brand-name {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--logo-fg);
+    line-height: 1.1;
+  }
+
+  .brand-descriptor {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.58rem;
+    letter-spacing: 0.38em;
+    color: var(--accent);
+    line-height: 1;
+    margin-top: 3px;
+    margin-left: 1px;
+    text-transform: uppercase;
+  }
+</style>

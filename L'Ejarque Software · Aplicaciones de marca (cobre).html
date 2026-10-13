@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'Ejarque Software · Aplicaciones de marca (cobre)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#121417; --panel:#16191D; --line:#2A2E35; --fg:#FFFFFF; --soft:#E5E7EB; --mute:#9BA1AB; --acc:#D98340;
+  --sans:Geist,Inter,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){--bg:#FFFFFF;--panel:#F4F5F7;--line:#E5E7EB;--fg:#121417;--soft:#2A2E35;--mute:#5B626D;--acc:#B8621F}
+}
+:root[data-theme="dark"]{--bg:#121417;--panel:#16191D;--line:#2A2E35;--fg:#FFFFFF;--soft:#E5E7EB;--mute:#9BA1AB;--acc:#D98340}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--soft);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+h1,h2,h3{color:var(--fg);font-weight:500;margin:0;letter-spacing:-.02em;line-height:1.15}
+h1{font-size:clamp(32px,4.6vw,54px);max-width:20ch}
+h2{font-size:clamp(24px,3vw,34px);margin-bottom:14px}
+h3{font-size:17px;letter-spacing:-.01em;margin:14px 0 4px}
+p{margin:0 0 14px;max-width:62ch}
+.mute{color:var(--mute)}
+header{padding:72px 0 56px}
+header p{font-size:18px;color:var(--mute);margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+figure{margin:0}
+figure svg{display:block;width:100%;height:auto;border:1px solid var(--line)}
+figcaption p{font-size:14px;color:var(--mute);margin:0}
+section{padding:72px 0;border-top:1px solid var(--line);margin-top:72px}
+ul.rules{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+ul.rules li{padding:14px 0;border-bottom:1px solid var(--line);max-width:70ch}
+ul.rules b{color:var(--fg);font-weight:500}
+footer{padding:36px 0 60px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.grid{grid-template-columns:1fr}header{padding-top:44px}section{padding:48px 0;margin-top:48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>La marca en objetos reales, versión cobre.</h1>
+    <p>Nueve aplicaciones del imagotipo de L'Ejarque Software: papelería, merchandising, credenciales, pantalla de móvil y señalética. Son maquetas planas en vector, coherentes con el estilo de la marca, para comprobar proporciones, contraste y legibilidad antes de producir.</p>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <section>
+    <h2>Cómo se produce cada pieza</h2>
+    <p>Sugerencias de técnica para cada soporte. Antes de una tirada grande, pide siempre una muestra o prueba de color a tu proveedor.</p>
+    <ul class="rules">
+      <li><b>Tarjetas:</b> papel grueso mate, impresión en dos tintas. Un barniz UV selectivo sobre el isotipo da relieve sin añadir color.</li>
+      <li><b>Hoja membretada y carpeta:</b> impresión offset o digital. En la carpeta, un laminado mate suave refuerza el aspecto sobrio.</li>
+      <li><b>Bolsa de tela:</b> serigrafía a una tinta con la versión monocroma del logo. Sobre tela clara va en grafito; sobre tela oscura, en blanco.</li>
+      <li><b>Taza y libreta:</b> tampografía o sublimación en la taza; estampado en seco o hot stamping en la tapa de la libreta.</li>
+      <li><b>Credencial:</b> PVC impreso a todo color, con el área de protección X respetada alrededor del imagotipo.</li>
+      <li><b>Señalética:</b> placa de aluminio o acrílico grafito con el logo grabado o en vinilo de corte blanco.</li>
+    </ul>
+  </section>
+
+  <footer>L'Ejarque Software · Aplicaciones de marca · Maquetas vectoriales ilustrativas</footer>
+</div>
+
+<script>
+(function(){
+  var FONT = "Geist, Inter, 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif";
+  var G='#121417', G2='#2A2E35', W='#FFFFFF', L='#E5E7EB', C='#D98340', B='#B8621F', M='#5B626D';
+
+  function mark(f,a,bg){
+    return '<g fill="none" stroke-width="2" stroke-linejoin="miter" stroke-linecap="butt">' +
+      '<polygon points="32,6 54.52,19 54.52,45 32,58 9.48,45 9.48,19" stroke="'+f+'"/>' +
+      '<polygon points="32,19 43.26,25.5 43.26,38.5 32,45 20.74,38.5 20.74,25.5" stroke="'+a+'"/>' +
+      '<path d="M32 6V19M43.26 38.5L54.52 45M20.74 38.5L9.48 45" stroke="'+a+'"/>' +
+      '<path d="M32 19V32M43.26 38.5L32 32L20.74 38.5" stroke="'+a+'"/></g>' +
+      '<g fill="'+bg+'" stroke="'+a+'" stroke-width="1.6"><circle cx="32" cy="6" r="2.8"/><circle cx="54.52" cy="45" r="2.8"/><circle cx="9.48" cy="45" r="2.8"/></g>' +
+      '<circle cx="32" cy="32" r="2" fill="'+a+'"/>';
+  }
+  // símbolo centrado en (cx,cy) con escala s
+  function symC(cx,cy,s,f,a,bg){
+    return '<g transform="translate('+(cx-32*s)+' '+(cy-32*s)+') scale('+s+')">'+mark(f,a,bg)+'</g>';
+  }
+  function lockInner(f,a,bg,sub){
+    return '<g transform="translate(8 8)">'+mark(f,a,bg)+'</g>' +
+      '<text x="92" y="45" font-family="'+FONT+'" font-size="34" font-weight="500" letter-spacing="-0.5" fill="'+f+'">L\u2019Ejarque</text>' +
+      '<text x="93.5" y="64" font-family="'+FONT+'" font-size="10.5" font-weight="500" letter-spacing="5.4" fill="'+(sub||a)+'">SOFTWARE</text>';
+  }
+  function lock(x,y,s,f,a,bg,sub){
+    return '<g transform="translate('+x+' '+y+') scale('+s+')">'+lockInner(f,a,bg,sub)+'</g>';
+  }
+  function T(x,y,size,fill,txt,o){
+    o=o||{};
+    return '<text x="'+x+'" y="'+y+'" font-family="'+FONT+'" font-size="'+size+'" font-weight="'+(o.w||500)+'" fill="'+fill+'"'+
+      (o.anchor?' text-anchor="'+o.anchor+'"':'')+(o.ls?' letter-spacing="'+o.ls+'"':'')+'>'+txt+'</text>';
+  }
+  function R(x,y,w,h,fill,o){
+    o=o||{};
+    return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+fill+'"'+(o.rx?' rx="'+o.rx+'"':'')+(o.stroke?' stroke="'+o.stroke+'" stroke-width="'+(o.sw||1)+'"':'')+(o.op?' opacity="'+o.op+'"':'')+'/>';
+  }
+  function scene(bg, inner, label){
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="'+label+'">'+R(0,0,400,300,bg)+inner+'</svg>';
+  }
+  function bars(x,y,widths,gap,h,fill){
+    var s=''; for(var i=0;i<widths.length;i++){ s+=R(x,y+i*gap,widths[i],h,fill,{rx:h/2}); } return s;
+  }
+
+  var items = [];
+
+  // 1. Tarjetas
+  items.push({t:'Tarjetas de presentación', d:'Frente con el isotipo solo; dorso con imagotipo y datos de contacto.',
+    svg: scene(L,
+      R(22,30,230,131,G,{rx:4}) + symC(137,95,.9,W,C,G) +
+      R(150,118,230,131,W,{rx:4,stroke:'#CBD0D6',sw:.8}) +
+      lock(164,128,.42,G,B,W) +
+      T(168,196,11,G,'Nombre Apellido') + T(168,209,8,M,'Ingeniería de sistemas',{w:400}) +
+      T(168,226,8,G,'nombre@dominio.com',{w:400}) + T(168,237,8,G,'+00 000 000 0000',{w:400}) +
+      R(150,245,230,4,B), 'Tarjetas de presentación')});
+
+  // 2. Hoja membretada
+  var body='';
+  body += bars(132,92,[146,140,146,120],9,3,L);
+  body += bars(132,134,[146,138,146,146,100],9,3,L);
+  body += bars(132,186,[146,132,146],9,3,L);
+  items.push({t:'Hoja membretada', d:'Formato A4 con cabecera de imagotipo y pie de datos corporativos.',
+    svg: scene(G2,
+      R(136,36,170,240,'#3A3F48') +
+      R(120,22,170,240,W) + lock(128,28,.38,G,B,W) +
+      R(132,66,146,1,B) + bars(224,36,[54,44],6,2,'#BFC5CD') +
+      body + R(132,238,146,.8,'#BFC5CD') + bars(132,246,[60,36],6,2,'#BFC5CD'), 'Hoja membretada')});
+
+  // 3. Carpeta
+  items.push({t:'Carpeta corporativa', d:'Cubierta grafito con isotipo grande y wordmark centrado.',
+    svg: scene(L,
+      R(112,18,176,40,W,{stroke:'#CBD0D6',sw:.8}) +
+      R(100,36,200,240,G) + R(118,36,1.5,240,G2) +
+      symC(200,120,1.5,W,C,G) +
+      T(200,205,20,W,'L\u2019Ejarque',{anchor:'middle',ls:-.3}) +
+      T(202,222,6.5,C,'SOFTWARE',{anchor:'middle',ls:3.4}), 'Carpeta corporativa')});
+
+  // 4. Bolsa de tela
+  items.push({t:'Bolsa de tela', d:'Versión monocroma, pensada para serigrafía a una sola tinta.',
+    svg: scene(G2,
+      '<path d="M150,112 V78 C150,22 250,22 250,78 V112" fill="none" stroke="#F2F3F5" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M105,100 H295 L305,275 H95 Z" fill="#F2F3F5"/>' +
+      '<path d="M104,112 H296" stroke="#D5D9DE" stroke-width="1" stroke-dasharray="3 3"/>' +
+      symC(200,172,1.2,G,G,'#F2F3F5') +
+      T(200,228,17,G,'L\u2019Ejarque',{anchor:'middle',ls:-.3}) +
+      T(201.5,241,5.5,G,'SOFTWARE',{anchor:'middle',ls:3}), 'Bolsa de tela')});
+
+  // 5. Taza
+  items.push({t:'Taza', d:'Versión a color sobre cerámica grafito.',
+    svg: scene(L,
+      R(0,232,400,68,'#D5D9DE') +
+      '<path d="M260,115 H278 A30,30 0 0 1 278,185 H260" fill="none" stroke="'+G+'" stroke-width="14"/>' +
+      R(120,90,140,142,G,{rx:10}) +
+      symC(190,138,.85,W,C,G) +
+      T(190,190,14,W,'L\u2019Ejarque',{anchor:'middle',ls:-.2}) +
+      T(191,202,4.5,C,'SOFTWARE',{anchor:'middle',ls:2.4}), 'Taza')});
+
+  // 6. Libreta
+  items.push({t:'Libreta con goma elástica', d:'Isotipo arriba, wordmark abajo a la izquierda, en estampado o hot stamping.',
+    svg: scene(B,
+      R(125,28,150,244,G,{rx:6}) + R(245,28,9,244,G2) +
+      symC(160,68,.75,W,C,G) +
+      R(144,225,24,1.5,C) +
+      T(144,244,13,W,'L\u2019Ejarque',{ls:-.2}) +
+      T(144,256,4.8,C,'SOFTWARE',{ls:2.5}), 'Libreta')});
+
+  // 7. Credencial
+  items.push({t:'Credencial con cinta', d:'Tarjeta blanca con imagotipo y cinta en cobre técnico.',
+    svg: scene('#16191D',
+      R(191,0,18,96,C) + R(187,90,26,12,G2,{rx:2}) +
+      R(138,100,124,180,W,{rx:8}) + R(186,108,28,5,'#CBD0D6',{rx:2.5}) +
+      lock(146,124,.36,G,B,W) +
+      '<circle cx="200" cy="196" r="26" fill="'+L+'"/><circle cx="200" cy="190" r="8" fill="#BFC5CD"/>' +
+      '<path d="M184,214 a16,14 0 0 1 32,0 a26,26 0 0 1 -32,0 Z" fill="#BFC5CD"/>' +
+      R(170,234,60,5,G,{rx:2.5}) + R(178,246,44,3,'#9BA1AB',{rx:1.5}) +
+      R(138,268,124,4,B), 'Credencial')});
+
+  // 8. Móvil
+  function favMini(x,y,sz){
+    var s=sz/32;
+    return '<g transform="translate('+x+' '+y+') scale('+s+')"><rect width="32" height="32" rx="7" fill="'+G+'"/>' +
+      '<g fill="none" stroke-width="2.4" stroke-linejoin="miter"><polygon points="16,4 26.39,10 26.39,22 16,28 5.61,22 5.61,10" stroke="'+W+'"/>' +
+      '<path d="M16 4V16M26.39 22L16 16L5.61 22" stroke="'+C+'"/></g></g>';
+  }
+  var icons='', xs=[148,186,224], ys=[60,98,136];
+  for(var r=0;r<3;r++){ for(var c=0;c<3;c++){
+    if(r===0&&c===0){ icons+=favMini(xs[c],ys[r],28)+T(xs[c]+14,ys[r]+38,5,L,'L\u2019Ejarque',{anchor:'middle',w:400}); }
+    else { icons+=R(xs[c],ys[r],28,28,'#3A3F48',{rx:7}) + R(xs[c]+6,ys[r]+33,16,2.5,'#5B626D',{rx:1.2}); }
+  }}
+  icons += R(147,244,106,28,'#3A3F48',{rx:10}) + R(153,248,20,20,'#4A505A',{rx:5}) + R(180,248,20,20,'#4A505A',{rx:5}) + R(207,248,20,20,'#4A505A',{rx:5});
+  items.push({t:'App en el móvil', d:'El favicon simplificado funciona como icono de aplicación.',
+    svg: scene(L,
+      R(135,14,130,272,G,{rx:22,stroke:G2,sw:1}) + R(141,20,118,260,G2,{rx:17}) + R(184,26,32,8,G,{rx:4}) + icons, 'Icono de app en un móvil')});
+
+  // 9. Señalética
+  items.push({t:'Señalética de oficina', d:'Placa de aluminio grafito con el imagotipo en blanco y acento.',
+    svg: scene(L,
+      R(0,250,400,2,'#CBD0D6') + R(0,256,400,44,'#D5D9DE') +
+      R(60,100,280,100,G) +
+      '<g fill="'+G2+'" stroke="#5B626D" stroke-width=".8"><circle cx="70" cy="110" r="2.6"/><circle cx="330" cy="110" r="2.6"/><circle cx="70" cy="190" r="2.6"/><circle cx="330" cy="190" r="2.6"/></g>' +
+      lock(85.3,116,.85,W,C,G), 'Señalética de oficina')});
+
+  var html='';
+  items.forEach(function(it){
+    html += '<figure>'+it.svg+'<figcaption><h3>'+it.t+'</h3><p>'+it.d+'</p></figcaption></figure>';
+  });
+  document.getElementById('grid').innerHTML = html;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" role="img" aria-label="L’Ejarque Software">
+  <title>L’Ejarque Software</title>
+  <style>
+    .f { fill:#FFFFFF; }
+    .a { fill:#D98340; }
+    .s { fill:none; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; }
+    .w { stroke:#FFFFFF; }
+    .c { stroke:#D98340; }
+    .n { fill:#121417; stroke:#D98340; stroke-width:1.6; }
+    .t { font-family:Geist,Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; font-weight:500; }
+  </style>
+  <g transform="translate(8 8)">
+    <g class="s">
+      <polygon class="w" points="32,6 54.52,19 54.52,45 32,58 9.48,45 9.48,19"/>
+      <polygon class="c" points="32,19 43.26,25.5 43.26,38.5 32,45 20.74,38.5 20.74,25.5"/>
+      <path class="c" d="M32 6V19M43.26 38.5L54.52 45M20.74 38.5L9.48 45"/>
+      <path class="c" d="M32 19V32M43.26 38.5L32 32L20.74 38.5"/>
+    </g>
+    <circle class="n" cx="32" cy="6" r="2.8"/>
+    <circle class="n" cx="54.52" cy="45" r="2.8"/>
+    <circle class="n" cx="9.48" cy="45" r="2.8"/>
+    <circle cx="32" cy="32" r="2" fill="#D98340"/>
+  </g>
+  <text class="t f" x="92" y="45" font-size="34" letter-spacing="-0.5">L’Ejarque</text>
+  <text class="t a" x="93.5" y="64" font-size="10.5" letter-spacing="5.4">SOFTWARE</text>
+</svg>

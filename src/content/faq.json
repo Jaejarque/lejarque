@@ -1,0 +1,52 @@
+[
+  {
+    "id": "faq-1",
+    "question": "¿Quién es el propietario del código fuente desarrollado y de la propiedad intelectual?",
+    "answer": "El cliente es el propietario absoluto y exclusivo del 100% del código fuente, diagramas de arquitectura, scripts de infraestructura y modelos de datos desarrollados. Al finalizar cada hito o el proyecto completo, se transfiere la titularidad completa sin cánones de licencia posteriores ni cláusulas de retención."
+  },
+  {
+    "id": "faq-2",
+    "question": "¿Cómo se estructuran los plazos y qué garantías existen contra demoras?",
+    "answer": "Los proyectos se descomponen en fases acotadas con entregables verificables cada dos semanas (sprints). El cronograma se formaliza con hitos claros en la fase de descubrimiento. Si surgen desvíos por complejidades no previstas, se identifican en las reuniones quincenales y se ajusta el alcance o los recursos de forma transparente, sin facturación sorpresa."
+  },
+  {
+    "id": "faq-3",
+    "question": "¿Qué modelos de contratación ofrecen (precio cerrado vs. tiempo y materiales)?",
+    "answer": "Ofrecemos dos esquemas según el nivel de certidumbre del alcance: 1) **Precio Cerrado por Hitos (Fixed Bid):** para proyectos con especificación técnica exhaustiva y alcance inmutable; 2) **Equipo Dedicado por Sprint (Time & Materials con tope):** para plataformas evolutivas donde las prioridades de negocio se adaptan quincenalmente sobre un backlog priorizado."
+  },
+  {
+    "id": "faq-4",
+    "question": "¿Cómo garantizan la compatibilidad y la integración con nuestros sistemas actuales (ERP, CRM, bases legadas)?",
+    "answer": "Antes de escribir una sola línea de código, realizamos una auditoría de interfaces con sus sistemas legados (SAP, Oracle, Tango, AS/400 o bases SQL Server antiguas). Diseñamos capas de abstracción mediante conectores gRPC o REST con mecanismos de retry exponencial, idempotencia y colas de contingencia para asegurar que un fallo en un sistema externo nunca degrade el nuevo software."
+  },
+  {
+    "id": "faq-5",
+    "question": "¿Cuál es el tamaño mínimo o presupuesto base con el que trabajan?",
+    "answer": "Nos especializamos en proyectos de escala corporativa e industrial. Como norma general, abordamos desarrollos a partir de 4 a 6 semanas de ingeniería mínima (módulos a partir de $4.500 USD). Para iniciativas de menor envergadura, podemos realizar auditorías técnicas puntuales o consultoría de arquitectura de 2 semanas."
+  },
+  {
+    "id": "faq-6",
+    "question": "¿Qué ocurre tras el despliegue a producción? ¿Ofrecen soporte y SLA?",
+    "answer": "Todo proyecto incluye una garantía legal de 90 días contra defectos y desvíos sobre la especificación acordada. Posteriormente, ofrecemos abonos mensuales de soporte y evolución con Acuerdos de Nivel de Servicio (SLA) que garantizan tiempos de respuesta de hasta 2 horas en incidentes críticos y guardia técnica 24/7."
+  },
+  {
+    "id": "faq-7",
+    "question": "¿Cómo abordan la seguridad, la confidencialidad de datos y el cumplimiento normativo?",
+    "answer": "Firmamos acuerdos de confidencialidad (NDA) antes de cualquier intercambio de información sensible. Aplicamos principios de 'Seguridad desde el Diseño' (OWASP Top 10, cifrado AES-256 en reposo, TLS 1.3 en tránsito) y auditorías automatizadas de vulnerabilidades (SAST/DAST) en los pipelines de integración continua. Disponemos de experiencia en normativas ISO 27001, HIPAA y GDPR."
+  },
+  {
+    "id": "faq-8",
+    "question": "¿Qué nivel de involucramiento requiere nuestro equipo interno durante el proyecto?",
+    "answer": "Requerimos un interlocutor técnico o de negocio designado (Product Owner interno) disponible aproximadamente 2 a 4 horas por semana para clarificar reglas de negocio, validar demos quincenales y homologar entregables. Nosotros nos encargamos de la gestión operativa completa del equipo de ingeniería."
+  },
+  {
+    "id": "faq-9",
+    "question": "¿El software puede alojarse en nuestros propios servidores (on-premise) o en nuestra nube privada?",
+    "answer": "Sí, absolutamente. Todo el software se empaqueta en contenedores estándar (Docker/Kubernetes) con scripts de infraestructura como código (Terraform). Puede desplegarse en su propia nube (AWS, Google Cloud, Azure) o en infraestructura física en sus instalaciones (on-premise), manteniendo la soberanía total de sus datos."
+  },
+  {
+    "id": "faq-10",
+    "question": "¿Cómo es el proceso para iniciar un proyecto con L'Ejarque Software?",
+    "answer": "El primer paso es una sesión técnica de descubrimiento de 45 minutos (sin costo) donde evaluamos el desafío, volumetría y arquitectura preliminar. En un plazo de 3 a 5 días hábiles entregamos una propuesta técnica con alcance, cronograma por hitos y presupuesto detallado."
+  }
+]

@@ -1,0 +1,579 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import projectsData from "../../content/projects.json";
+import siteConfig from "../../config/site.config";
+
+export async function getStaticPaths() {
+  return projectsData.map((project, index) => {
+    const nextIndex = (index + 1) % projectsData.length;
+    const nextProject = projectsData[nextIndex];
+    return {
+      params: { slug: project.slug },
+      props: { project, nextProject },
+    };
+  });
+}
+
+const { project, nextProject } = Astro.props;
+---
+
+<Layout
+  title={`${project.title} · ${siteConfig.brand.name} ${siteConfig.brand.descriptor}`}
+  description={project.summary}
+>
+  <div class="case-study-page">
+    <div class="container">
+      <!-- Breadcrumb y navegación superior -->
+      <nav class="case-breadcrumb mono" aria-label="Migas de pan">
+        <a href="/">Inicio</a>
+        <span class="sep">/</span>
+        <a href="/#proyectos">Proyectos</a>
+        <span class="sep">/</span>
+        <span class="current">{project.industryLabel}</span>
+      </nav>
+
+      <!-- Encabezado del caso de estudio -->
+      <header class="case-header">
+        <div class="case-tags-row">
+          <span class="tag-ind mono">{project.industryLabel}</span>
+          <span class="tag-cat mono">{project.categoryLabel}</span>
+          {project.confidential && (
+            <span class="badge-nda mono">Cliente bajo acuerdo de confidencialidad (NDA)</span>
+          )}
+        </div>
+
+        <h1 class="case-main-title">{project.title}</h1>
+        <p class="case-summary-lead">{project.summary}</p>
+
+        <!-- Ficha técnica del proyecto -->
+        <div class="case-spec-sheet panel">
+          <div class="spec-col">
+            <span class="spec-lbl mono">CLIENTE</span>
+            <span class="spec-val">{project.client}</span>
+          </div>
+          <div class="spec-col">
+            <span class="spec-lbl mono">PLAZO DE EJECUCIÓN</span>
+            <span class="spec-val mono">{project.timeline}</span>
+          </div>
+          <div class="spec-col">
+            <span class="spec-lbl mono">EQUIPO DE INGENIERÍA</span>
+            <span class="spec-val">{project.team}</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Métricas destacadas de impacto -->
+      <section class="case-metrics-section">
+        <h2 class="subhead-mono mono">MÉTRICAS CLAVE OBTENIDAS</h2>
+        <div class="metrics-quad-grid">
+          {project.metrics.map((m) => (
+            <div class="metric-box panel">
+              <span class="m-val mono">{m.value}</span>
+              <span class="m-lbl">{m.label}</span>
+              <span class="m-chg mono">{m.change}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Cuerpo del caso de estudio: Desafío y Solución -->
+      <div class="case-body-grid">
+        <article class="narrative-col panel">
+          <h2 class="section-subtitle">El Desafío Operativo</h2>
+          <p>{project.challenge}</p>
+
+          <h2 class="section-subtitle" style="margin-top: 32px;">Enfoque Arquitectónico</h2>
+          <p>{project.solution}</p>
+        </article>
+
+        <!-- Stack Tecnológico -->
+        <aside class="stack-col panel">
+          <h2 class="subhead-mono mono">STACK TECNOLÓGICO</h2>
+          <div class="tech-pills-wrap">
+            {project.stack.map((item) => (
+              <span class="tech-tag mono">{item}</span>
+            ))}
+          </div>
+
+          <div class="similar-cta-box panel" style="margin-top: 32px;">
+            <h3 class="similar-cta-title">¿Tienes un reto similar?</h3>
+            <p class="similar-cta-desc">Configura los parámetros de tu sistema en nuestro cotizador de arquitectura.</p>
+            <a href="/#cotizador" class="btn btn-primary btn-block">
+              Simular este proyecto
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Diagrama de Arquitectura Interactivo en SVG -->
+      <section class="case-architecture-section panel">
+        <div class="arch-head">
+          <span class="subhead-mono mono">TOPOLOGÍA ARQUITECTÓNICA DEL SISTEMA</span>
+          <p class="arch-desc">{project.architecture.description}</p>
+          <span class="hint-label mono">Pasa el cursor o enfoca los nodos para inspeccionar su rol funcional:</span>
+        </div>
+
+        <div class="arch-diagram-canvas" id="archCanvas" role="region" aria-label="Diagrama de nodos de arquitectura">
+          <svg viewBox="0 0 800 360" width="100%" height="auto" class="arch-svg">
+            <defs>
+              <pattern id="archGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--line)" stroke-width="0.5" opacity="0.4" />
+              </pattern>
+            </defs>
+
+            <rect width="800" height="360" fill="var(--bg)" />
+            <rect width="800" height="360" fill="url(#archGrid)" />
+
+            <!-- Líneas de interconexión entre nodos -->
+            <g class="conduits-group" stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="3 3">
+              {project.architecture.nodes.map((node) => {
+                const nodeX = (node.x / 100) * 800;
+                const nodeY = (node.y / 100) * 360;
+                return node.connectedTo.map((targetId) => {
+                  const targetNode = project.architecture.nodes.find((n) => n.id === targetId);
+                  if (!targetNode) return null;
+                  const targetX = (targetNode.x / 100) * 800;
+                  const targetY = (targetNode.y / 100) * 360;
+                  return (
+                    <line
+                      x1={nodeX}
+                      y1={nodeY}
+                      x2={targetX}
+                      y2={targetY}
+                      class={`conduit-line line-${node.id} line-${targetId}`}
+                    />
+                  );
+                });
+              })}
+            </g>
+
+            <!-- Nodos del diagrama -->
+            {project.architecture.nodes.map((node) => {
+              const cx = (node.x / 100) * 800;
+              const cy = (node.y / 100) * 360;
+              return (
+                <g
+                  class="arch-node-group"
+                  tabindex="0"
+                  role="button"
+                  aria-label={`${node.name}: ${node.role}`}
+                  data-node-id={node.id}
+                  transform={`translate(${cx - 75}, ${cy - 30})`}
+                >
+                  <rect
+                    width="150"
+                    height="60"
+                    rx="2"
+                    fill="var(--panel)"
+                    stroke="var(--line)"
+                    stroke-width="1.2"
+                    class="node-rect"
+                  />
+                  <text x="12" y="24" fill="var(--text)" font-family="var(--font-sans)" font-size="12" font-weight="500">
+                    {node.name.length > 17 ? node.name.slice(0, 16) + "…" : node.name}
+                  </text>
+                  <text x="12" y="44" fill="var(--accent)" font-family="var(--font-mono)" font-size="9.5">
+                    {node.role.length > 22 ? node.role.slice(0, 21) + "…" : node.role}
+                  </text>
+                  <circle cx="140" cy="14" r="3" fill="var(--accent)" />
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+      </section>
+
+      <!-- Pie del estudio de caso y siguiente proyecto -->
+      <footer class="case-footer-nav">
+        <a href="/#proyectos" class="btn btn-outline">
+          ← Volver a todos los proyectos
+        </a>
+
+        {nextProject && (
+          <a href={`/proyectos/${nextProject.slug}`} class="next-project-link panel">
+            <span class="next-lbl mono">SIGUIENTE CASO DE ESTUDIO →</span>
+            <span class="next-title">{nextProject.title}</span>
+          </a>
+        )}
+      </footer>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .case-study-page {
+    padding-top: 48px;
+    padding-bottom: 96px;
+  }
+
+  .case-breadcrumb {
+    font-size: 12px;
+    color: var(--text-mute);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .case-breadcrumb a:hover {
+    color: var(--accent);
+  }
+
+  .case-breadcrumb .current {
+    color: var(--accent-ink);
+  }
+
+  .case-header {
+    margin-bottom: 48px;
+  }
+
+  .case-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .tag-ind {
+    font-size: 11px;
+    color: var(--accent-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .tag-cat {
+    font-size: 11px;
+    color: var(--text-mute);
+    border: 1px solid var(--line);
+    padding: 2px 8px;
+    border-radius: var(--radius-xs);
+  }
+
+  .badge-nda {
+    font-size: 10.5px;
+    color: var(--accent);
+    background-color: var(--surface-active);
+    border: 1px dashed var(--accent);
+    padding: 2px 8px;
+    border-radius: var(--radius-xs);
+  }
+
+  .case-main-title {
+    font-size: var(--text-3xl);
+    line-height: 1.15;
+    margin-bottom: 18px;
+    color: var(--text);
+    max-width: 26ch;
+  }
+
+  .case-summary-lead {
+    font-size: var(--text-lg);
+    color: var(--text-mute);
+    line-height: 1.55;
+    max-width: 65ch;
+    margin-bottom: 32px;
+  }
+
+  .case-spec-sheet {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+  }
+
+  @media (min-width: 720px) {
+    .case-spec-sheet {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .spec-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .spec-lbl {
+    font-size: 10.5px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+  }
+
+  .spec-val {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* Métricas */
+  .case-metrics-section {
+    margin-bottom: 48px;
+  }
+
+  .subhead-mono {
+    font-size: 11px;
+    color: var(--accent-ink);
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+    display: block;
+    font-weight: 500;
+  }
+
+  .metrics-quad-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  @media (min-width: 600px) {
+    .metrics-quad-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .metrics-quad-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .metric-box {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .m-val {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .m-lbl {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .m-chg {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-top: 4px;
+  }
+
+  /* Narrativa y stack */
+  .case-body-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+
+  @media (min-width: 880px) {
+    .case-body-grid {
+      grid-template-columns: 1.4fr 0.6fr;
+      gap: 40px;
+    }
+  }
+
+  .narrative-col {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    padding: clamp(24px, 4vw, 36px);
+  }
+
+  .section-subtitle {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  .narrative-col p {
+    font-size: 15px;
+    color: var(--text-soft);
+    line-height: 1.65;
+  }
+
+  .stack-col {
+    background-color: var(--bg);
+    border: 1px solid var(--line);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .tech-pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-tag {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    font-size: 12px;
+    color: var(--text-soft);
+    border-radius: var(--radius-xs);
+  }
+
+  .similar-cta-box {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .similar-cta-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .similar-cta-desc {
+    font-size: 12px;
+    color: var(--text-mute);
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+
+  /* Arquitectura interactiva */
+  .case-architecture-section {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(24px, 4vw, 40px);
+    margin-bottom: 48px;
+  }
+
+  .arch-head {
+    margin-bottom: 24px;
+  }
+
+  .arch-desc {
+    font-size: 14.5px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+  }
+
+  .hint-label {
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+
+  .arch-diagram-canvas {
+    border: 1px solid var(--line);
+    background-color: var(--bg);
+    overflow: hidden;
+    border-radius: var(--radius-xs);
+  }
+
+  .arch-node-group {
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.15s ease;
+  }
+
+  .arch-node-group:hover .node-rect,
+  .arch-node-group:focus .node-rect {
+    stroke: var(--accent);
+    stroke-width: 2px;
+  }
+
+  .arch-node-group.is-highlighted .node-rect {
+    stroke: var(--accent-hi);
+    stroke-width: 2.2px;
+    fill: var(--surface-active);
+  }
+
+  .conduit-line.is-active {
+    stroke: var(--accent-hi);
+    stroke-width: 2.8px;
+    stroke-dasharray: none;
+  }
+
+  /* Footer de navegación */
+  .case-footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 720px) {
+    .case-footer-nav {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .next-project-link {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .next-project-link:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .next-lbl {
+    font-size: 10.5px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .next-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var nodes = document.querySelectorAll(".arch-node-group");
+    var lines = document.querySelectorAll(".conduit-line");
+
+    nodes.forEach(function (n) {
+      function highlight() {
+        var id = n.getAttribute("data-node-id");
+        n.classList.add("is-highlighted");
+        document.querySelectorAll(".line-" + id).forEach(function (l) {
+          l.classList.add("is-active");
+        });
+      }
+
+      function unhighlight() {
+        var id = n.getAttribute("data-node-id");
+        n.classList.remove("is-highlighted");
+        document.querySelectorAll(".line-" + id).forEach(function (l) {
+          l.classList.remove("is-active");
+        });
+      }
+
+      n.addEventListener("mouseenter", highlight);
+      n.addEventListener("mouseleave", unhighlight);
+      n.addEventListener("focus", highlight);
+      n.addEventListener("blur", unhighlight);
+    });
+  })();
+</script>

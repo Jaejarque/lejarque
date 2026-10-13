@@ -1,0 +1,32 @@
+[
+  {
+    "id": "modularidad",
+    "number": "01",
+    "title": "Arquitectura Modular y Desacoplada",
+    "description": "Cada componente tiene límites claros de dominio (Bounded Contexts) e interactúa mediante contratos explícitos. Si un servicio falla o debe reemplazarse, el resto del ecosistema continúa operando sin degradación catastrófica."
+  },
+  {
+    "id": "trazabilidad",
+    "number": "02",
+    "title": "Trazabilidad Matemática Total",
+    "description": "Cada mutación de estado en la base de datos queda respaldada por registros inmutables, correlacionados mediante identificadores de trazabilidad distribuida (Trace IDs). Ninguna transacción ocurre sin evidencia auditable."
+  },
+  {
+    "id": "seguridad",
+    "number": "03",
+    "title": "Seguridad desde el Diseño (Security by Design)",
+    "description": "La seguridad no se añade al final como un parche: modelamos la superficie de ataque desde el primer diagrama. Principio de mínimo privilegio, cifrado en reposo y en tránsito, y cero secretos expuestos en el cliente."
+  },
+  {
+    "id": "documentacion",
+    "number": "04",
+    "title": "Documentación Viva como Código",
+    "description": "No creemos en manuales en PDF que quedan obsoletos al mes. La documentación de arquitectura, las especificaciones OpenAPI y los runbooks viven en el mismo repositorio de código y se compilan automáticamente con cada release."
+  },
+  {
+    "id": "propiedad",
+    "number": "05",
+    "title": "Propiedad Absoluta del Código",
+    "description": "El cliente es el único dueño legítimo de la propiedad intelectual, el código fuente, la infraestructura y los datos. Cero vendor lock-in, cero cláusulas ocultas de licenciamiento propietario."
+  }
+]

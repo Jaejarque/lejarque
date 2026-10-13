@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L'Ejarque Software · Guía de identidad visual (cobre)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#121417; --panel:#16191D; --line:#2A2E35; --fg:#FFFFFF; --soft:#E5E7EB; --mute:#9BA1AB; --acc:#D98340; --acc2:#F0A261;
+  --sans:Geist,Inter,"Space Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){--bg:#FFFFFF;--panel:#F4F5F7;--line:#E5E7EB;--fg:#121417;--soft:#2A2E35;--mute:#5B626D;--acc:#B8621F;--acc2:#D98340}
+}
+:root[data-theme="dark"]{--bg:#121417;--panel:#16191D;--line:#2A2E35;--fg:#FFFFFF;--soft:#E5E7EB;--mute:#9BA1AB;--acc:#D98340;--acc2:#F0A261}
+:root[data-theme="light"]{--bg:#FFFFFF;--panel:#F4F5F7;--line:#E5E7EB;--fg:#121417;--soft:#2A2E35;--mute:#5B626D;--acc:#B8621F;--acc2:#D98340}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--soft);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+h1,h2,h3{color:var(--fg);font-weight:500;margin:0;letter-spacing:-.02em;line-height:1.15}
+h2{font-size:clamp(26px,3.4vw,38px);margin-bottom:14px}
+h3{font-size:18px;letter-spacing:-.01em;margin-bottom:8px}
+p{margin:0 0 14px;max-width:62ch;color:var(--soft)}
+.mute{color:var(--mute)}
+section{padding:96px 0;border-top:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.top span{font-size:14px;color:var(--mute)}
+.top button{font:inherit;font-size:14px;color:var(--soft);background:none;border:1px solid var(--line);padding:7px 14px;cursor:pointer}
+.top button:hover{border-color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+/* hero */
+.hero{padding:56px 0 110px;position:relative}
+.hero .stage{position:relative;border:1px solid var(--line);aspect-ratio:16/8;min-height:260px;display:grid;place-items:center;background:
+ linear-gradient(var(--line) 1px,transparent 1px) 0 0/48px 48px,
+ linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/48px 48px;background-color:var(--bg)}
+.hero .stage::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--bg) 35%,transparent 80%);opacity:.92}
+.hero .stage svg{position:relative;width:min(78%,640px);height:auto}
+.hero h1{font-size:clamp(34px,5vw,60px);margin:44px 0 16px;max-width:18ch}
+.hero p{font-size:18px;color:var(--mute)}
+
+/* generic */
+.cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:start}
+.panel{border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;padding:36px}
+.panel svg{max-width:100%;height:auto}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.cap{font-size:13px;color:var(--mute);margin-top:10px}
+@media (max-width:820px){.cols{grid-template-columns:1fr;gap:32px}.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}section{padding:64px 0}}
+
+/* colors */
+.sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--line)}
+.sw div{padding:70px 16px 16px;font-size:13px;line-height:1.5}
+.sw b{display:block;font-weight:500;font-size:15px}
+.sw code{font-family:var(--mono);font-size:12.5px}
+.ratio{display:flex;height:14px;margin:26px 0 8px;border:1px solid var(--line)}
+.ratio i{display:block}
+
+/* type */
+.spec{display:grid;grid-template-columns:160px 1fr;border-top:1px solid var(--line)}
+.spec>*{padding:16px 0;border-bottom:1px solid var(--line)}
+.spec dt{color:var(--mute);font-size:14px}
+.spec dd{margin:0;color:var(--fg)}
+.big{font-size:clamp(42px,7vw,84px);font-weight:500;letter-spacing:-.03em;color:var(--fg);line-height:1}
+@media (max-width:560px){.spec{grid-template-columns:1fr}.spec dt{border-bottom:0;padding-bottom:0}}
+
+/* rules list */
+ul.rules{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+ul.rules li{padding:14px 0;border-bottom:1px solid var(--line);max-width:62ch}
+ul.rules b{color:var(--fg);font-weight:500}
+
+/* favicons */
+.fav{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end}
+.fav figure{margin:0}
+.fav figcaption{font-size:13px;color:var(--mute);margin-top:10px}
+.px{image-rendering:pixelated}
+
+/* code */
+.code{position:relative;border:1px solid var(--line);background:var(--panel);margin-top:18px}
+.code pre{margin:0;padding:22px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--soft);max-height:420px}
+.code button{position:absolute;top:10px;right:10px;font:inherit;font-size:13px;background:var(--bg);color:var(--soft);border:1px solid var(--line);padding:5px 12px;cursor:pointer}
+.code button:hover{border-color:var(--acc)}
+.code .t{padding:12px 22px;border-bottom:1px solid var(--line);font-size:14px;color:var(--mute)}
+footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>Guía de identidad visual · versión B, cobre</span><button id="themeBtn" type="button">Cambiar a modo claro</button></div>
+
+  <header class="hero">
+    <div class="stage" id="hero"></div>
+    <h1>Ingeniería de software con precisión de arquitectura.</h1>
+    <p>L'Ejarque Software construye sistemas a medida y arquitectura de datos. La marca lo dice con una sola estructura: líneas uniformes, nodos y una geometría que se puede medir.</p>
+  </header>
+
+  <section id="isotipo">
+    <div class="cols">
+      <div>
+        <h2>Isotipo</h2>
+        <p>Un hexágono isométrico contiene un segundo hexágono y un eje de tres ramas que converge en un nodo central. Se lee como módulo, conexión y punto de decisión, sin recurrir a una L ni a una E.</p>
+        <p>Todo el trazo mide 2 unidades en una rejilla de 64. No hay rellenos, degradados ni sombras. Los tres nodos huecos señalan los puntos donde el sistema se abre al exterior.</p>
+        <ul class="rules">
+          <li><b>Contorno exterior</b> en blanco o grafito, según el fondo.</li>
+          <li><b>Estructura interna y nodos</b> en cobre técnico.</li>
+          <li><b>Simetría</b> especular sobre el eje vertical, giro de 120° en el núcleo.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="panel" style="padding:24px"><div id="construct" style="width:100%;max-width:520px"></div></div>
+        <p class="cap">Construcción sobre rejilla de 64 × 64. Radio exterior 26, radio interior 13, centro en (32, 32).</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="versiones">
+    <h2>Imagotipo y versiones</h2>
+    <p>El símbolo va a la izquierda del texto. El nombre se compone en peso medio con tracking ligeramente cerrado; «SOFTWARE» queda en mayúsculas con tracking abierto y en el color de acento.</p>
+    <div class="grid2" style="margin-top:32px">
+      <div><div class="panel" style="background:#121417" id="v-dark"></div><p class="cap">Sobre grafito #121417</p></div>
+      <div><div class="panel" style="background:#FFFFFF" id="v-light"></div><p class="cap">Sobre blanco, con cobre oscuro #B8621F para mantener contraste</p></div>
+      <div><div class="panel" style="background:#2A2E35" id="v-mid"></div><p class="cap">Sobre gris #2A2E35</p></div>
+      <div><div class="panel" style="background:#B8621F" id="v-blue"></div><p class="cap">Monocromo blanco sobre cobre. Todo el logo en un solo color.</p></div>
+    </div>
+  </section>
+
+  <section id="color">
+    <h2>Paleta cromática</h2>
+    <p>Dos neutros profundos, un blanco puro y un único acento. El cobre aparece solo donde hay estructura o énfasis técnico.</p>
+    <div class="sw" style="margin-top:28px">
+      <div style="background:#121417;color:#fff"><b>Grafito técnico</b><code>#121417</code><br>Fondo corporativo</div>
+      <div style="background:#2A2E35;color:#fff"><b>Grafito medio</b><code>#2A2E35</code><br>Líneas y superficies</div>
+      <div style="background:#E5E7EB;color:#121417"><b>Gris claro</b><code>#E5E7EB</code><br>Texto secundario</div>
+      <div style="background:#FFFFFF;color:#121417"><b>Blanco</b><code>#FFFFFF</code><br>Contorno y titulares</div>
+      <div style="background:#D98340;color:#121417"><b>Cobre técnico</b><code>#D98340</code><br>Acento sobre oscuro</div>
+      <div style="background:#B8621F;color:#fff"><b>Cobre oscuro</b><code>#B8621F</code><br>Acento sobre claro</div>
+    </div>
+    <div class="ratio" aria-hidden="true"><i style="width:60%;background:#121417"></i><i style="width:18%;background:#2A2E35"></i><i style="width:12%;background:#FFFFFF"></i><i style="width:10%;background:#D98340"></i></div>
+    <p class="cap">Proporción de uso sugerida: 60 % grafito, 18 % gris medio, 12 % blanco, 10 % acento. #F0A261 queda reservado para estados activos y resaltes en interfaz. El cobre evoca conductores y circuitos: ingeniería con carácter propio.</p>
+  </section>
+
+  <section id="tipografia">
+    <h2>Tipografía</h2>
+    <p>Familias de código abierto, de licencia SIL OFL, disponibles en Google Fonts y para autoalojar.</p>
+    <div class="big" style="margin:36px 0 8px">L'Ejarque</div>
+    <div style="font-weight:500;font-size:clamp(12px,1.6vw,18px);letter-spacing:.51em;color:var(--acc);margin-bottom:40px">SOFTWARE</div>
+    <dl class="spec">
+      <dt>Wordmark</dt><dd>Geist Medium (500), tracking −1,5 %. Alternativa: Inter Medium con −2 %.</dd>
+      <dt>Descriptor</dt><dd>Geist Medium (500), mayúsculas, tracking +0,5 em. Tamaño = 31 % del wordmark.</dd>
+      <dt>Titulares</dt><dd>Geist 500, interlineado 1,15, tracking −2 %.</dd>
+      <dt>Texto corrido</dt><dd>Geist 400 o Inter 400, 16 px, interlineado 1,6, líneas de hasta 65 caracteres.</dd>
+      <dt>Código y datos</dt><dd>Geist Mono 400.</dd>
+      <dt>Alternativa técnica</dt><dd>Space Grotesk 500 para piezas de comunicación con más carácter.</dd>
+    </dl>
+    <p class="cap" style="margin-top:14px">En producción, convierte los textos del logo a contornos para que el imagotipo no dependa de la fuente instalada.</p>
+  </section>
+
+  <section id="proteccion">
+    <div class="cols">
+      <div>
+        <h2>Área de protección y tamaños mínimos</h2>
+        <p>La unidad X equivale a un cuarto de la altura del isotipo. Ningún elemento gráfico o de texto entra en ese margen.</p>
+        <ul class="rules">
+          <li><b>Margen mínimo:</b> X en los cuatro lados del imagotipo.</li>
+          <li><b>Imagotipo completo:</b> no menor de 120 px de ancho en pantalla o 30 mm en impresión.</li>
+          <li><b>Solo isotipo:</b> desde 24 px. Por debajo de 24 px, usa la versión favicon.</li>
+          <li><b>Descriptor «SOFTWARE»:</b> si queda menor de 7 px de alto, retíralo y usa solo el wordmark.</li>
+          <li><b>Fondos:</b> sobre fotografía, coloca antes una capa sólida grafito al 90 %.</li>
+          <li><b>No permitido:</b> girar, deformar, rellenar el isotipo, añadir sombras o degradados, cambiar el acento por otro color.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="panel" style="padding:20px"><div id="clear" style="width:100%;max-width:560px"></div></div>
+        <p class="cap">Los cuadrados cobre marcan X. La línea discontinua delimita la zona de exclusión.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="favicon">
+    <h2>Favicon y icono de app</h2>
+    <p>En tamaños pequeños se elimina el hexágono interior. Quedan el contorno exterior y el eje de tres ramas, con el trazo engrosado para que sobreviva a 16 px.</p>
+    <div class="fav" style="margin-top:34px">
+      <figure><div id="f180"></div><figcaption>Icono de app, 180 px</figcaption></figure>
+      <figure><div id="f64"></div><figcaption>64 px</figcaption></figure>
+      <figure><div id="f32"></div><figcaption>32 px</figcaption></figure>
+      <figure><div id="f16"></div><figcaption>16 px</figcaption></figure>
+      <figure><div id="f16b" style="background:#fff;padding:8px"></div><figcaption>16 px sobre pestaña clara</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="codigo">
+    <h2>Código SVG</h2>
+    <p>El imagotipo usa solo trazos, sin filtros ni degradados. Los colores se definen en un único bloque de estilo, así que cambiar entre versión oscura y clara es modificar tres valores.</p>
+    <div class="code"><div class="t">Imagotipo completo (símbolo + L'Ejarque + SOFTWARE)</div><button type="button" data-copy="c1">Copiar</button><pre id="c1"></pre></div>
+    <div class="code"><div class="t">Favicon 32 × 32 (también válido a 16 × 16)</div><button type="button" data-copy="c2">Copiar</button><pre id="c2"></pre></div>
+    <div class="code"><div class="t">Uso en HTML</div><button type="button" data-copy="c3">Copiar</button><pre id="c3"></pre></div>
+  </section>
+
+  <footer>L'Ejarque Software · Guía de identidad visual · Fuentes: Geist, Inter, Space Grotesk (SIL OFL)</footer>
+</div>
+
+<script>
+(function(){
+  var FONT = "Geist, Inter, 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif";
+
+  // ---- Símbolo (rejilla 64x64) ----
+  function mark(f, a, bg){
+    return '' +
+    '<g fill="none" stroke-width="2" stroke-linejoin="miter" stroke-linecap="butt">' +
+      '<polygon points="32,6 54.52,19 54.52,45 32,58 9.48,45 9.48,19" stroke="'+f+'"/>' +
+      '<polygon points="32,19 43.26,25.5 43.26,38.5 32,45 20.74,38.5 20.74,25.5" stroke="'+a+'"/>' +
+      '<path d="M32 6V19M43.26 38.5L54.52 45M20.74 38.5L9.48 45" stroke="'+a+'"/>' +
+      '<path d="M32 19V32M43.26 38.5L32 32L20.74 38.5" stroke="'+a+'"/>' +
+    '</g>' +
+    '<g fill="'+bg+'" stroke="'+a+'" stroke-width="1.6">' +
+      '<circle cx="32" cy="6" r="2.8"/><circle cx="54.52" cy="45" r="2.8"/><circle cx="9.48" cy="45" r="2.8"/>' +
+    '</g>' +
+    '<circle cx="32" cy="32" r="2" fill="'+a+'"/>';
+  }
+
+  // ---- Imagotipo (contenido, viewBox 0 0 300 80) ----
+  function lockInner(f, a, bg, sub){
+    return '<g transform="translate(8 8)">'+mark(f,a,bg)+'</g>' +
+      '<text x="92" y="45" font-family="'+FONT+'" font-size="34" font-weight="500" letter-spacing="-0.5" fill="'+f+'">L\u2019Ejarque</text>' +
+      '<text x="93.5" y="64" font-family="'+FONT+'" font-size="10.5" font-weight="500" letter-spacing="5.4" fill="'+(sub||a)+'">SOFTWARE</text>';
+  }
+  function lockup(f,a,bg,sub,extra){
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" role="img" aria-label="L\u2019Ejarque Software"'+(extra||'')+'>' +
+      '<title>L\u2019Ejarque Software</title>' + lockInner(f,a,bg,sub) + '</svg>';
+  }
+  function put(id, html){ var el=document.getElementById(id); if(el) el.innerHTML = html; }
+
+  // Hero y versiones
+  put('hero', lockup('#FFFFFF','#D98340','#121417'));
+  put('v-dark',  lockup('#FFFFFF','#D98340','#121417','#D98340',' width="300"'));
+  put('v-light', lockup('#121417','#B8621F','#FFFFFF','#B8621F',' width="300"'));
+  put('v-mid',   lockup('#FFFFFF','#F0A261','#2A2E35','#F0A261',' width="300"'));
+  put('v-blue',  lockup('#FFFFFF','#FFFFFF','#B8621F','#FFFFFF',' width="300"'));
+
+  // ---- Construcción ----
+  var cons = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" role="img" aria-label="Construcción del isotipo">' +
+    '<defs><pattern id="g" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M4 0H0V4" fill="none" stroke="#2A2E35" stroke-width=".15"/></pattern></defs>' +
+    '<rect width="64" height="64" fill="#121417"/><rect width="64" height="64" fill="url(#g)"/>' +
+    '<g fill="none" stroke="#D98340" stroke-width=".18" stroke-dasharray="1 1" opacity=".9">' +
+      '<circle cx="32" cy="32" r="26"/><circle cx="32" cy="32" r="13"/>' +
+      '<path d="M32 0V64M0 32H64M9.48 19L54.52 45M54.52 19L9.48 45"/></g>' +
+    mark('#FFFFFF','#D98340','#121417') + '</svg>';
+  put('construct', cons);
+
+  // ---- Área de protección ----
+  var X = 16;
+  var clear = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 332 112" width="100%" role="img" aria-label="Área de protección del imagotipo">' +
+    '<rect width="332" height="112" fill="#121417"/>' +
+    '<rect x="8" y="8" width="316" height="96" fill="none" stroke="#D98340" stroke-width=".8" stroke-dasharray="3 3"/>' +
+    '<rect x="24" y="24" width="284" height="64" fill="none" stroke="#2A2E35" stroke-width=".8"/>' +
+    '<g fill="#D98340" fill-opacity=".18" stroke="#D98340" stroke-width=".6">' +
+      '<rect x="8" y="48" width="16" height="16"/><rect x="308" y="48" width="16" height="16"/>' +
+      '<rect x="148" y="8" width="16" height="16"/><rect x="148" y="88" width="16" height="16"/></g>' +
+    '<g fill="#D98340" font-family="'+FONT+'" font-size="9" text-anchor="middle"><text x="16" y="59">X</text><text x="316" y="59">X</text><text x="156" y="19.5">X</text><text x="156" y="99.5">X</text></g>' +
+    '<g transform="translate(16 16)">' + lockInner('#FFFFFF','#D98340','#121417') + '</g></svg>';
+  put('clear', clear);
+
+  // ---- Favicon ----
+  function favicon(size, bg, radius){
+    var f = '#FFFFFF', a = '#D98340';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="'+size+'" height="'+size+'" role="img" aria-label="L\u2019Ejarque Software">' +
+      '<rect width="32" height="32" rx="'+(radius===undefined?7:radius)+'" fill="'+bg+'"/>' +
+      '<g fill="none" stroke-width="2.4" stroke-linejoin="miter" stroke-linecap="butt">' +
+        '<polygon points="16,4 26.39,10 26.39,22 16,28 5.61,22 5.61,10" stroke="'+f+'"/>' +
+        '<path d="M16 4V16M26.39 22L16 16L5.61 22" stroke="'+a+'"/>' +
+      '</g></svg>';
+  }
+  put('f180', favicon(180,'#121417',7));
+  put('f64',  favicon(64,'#121417',7));
+  put('f32',  favicon(32,'#121417',7));
+  put('f16',  favicon(16,'#121417',3.5));
+  put('f16b', favicon(16,'#121417',3.5));
+
+  // ---- Bloques de código ----
+  var codeLogo =
+'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" role="img" aria-label="L\u2019Ejarque Software">\n' +
+'  <title>L\u2019Ejarque Software</title>\n' +
+'  <style>\n' +
+'    .f { --fg:#FFFFFF; }   /* contorno y wordmark */\n' +
+'    .a { --ac:#D98340; }   /* acento y descriptor */\n' +
+'    .s { fill:none; stroke-width:2; stroke-linejoin:miter; stroke-linecap:butt; }\n' +
+'    .w { stroke:#FFFFFF; } .c { stroke:#D98340; }\n' +
+'    .n { fill:#121417; stroke:#D98340; stroke-width:1.6; }\n' +
+'    .t { font-family:Geist,Inter,\'Space Grotesk\',\'Helvetica Neue\',Arial,sans-serif; font-weight:500; }\n' +
+'  </style>\n' +
+'  <g transform="translate(8 8)">\n' +
+'    <g class="s">\n' +
+'      <polygon class="w" points="32,6 54.52,19 54.52,45 32,58 9.48,45 9.48,19"/>\n' +
+'      <polygon class="c" points="32,19 43.26,25.5 43.26,38.5 32,45 20.74,38.5 20.74,25.5"/>\n' +
+'      <path class="c" d="M32 6V19M43.26 38.5L54.52 45M20.74 38.5L9.48 45"/>\n' +
+'      <path class="c" d="M32 19V32M43.26 38.5L32 32L20.74 38.5"/>\n' +
+'    </g>\n' +
+'    <circle class="n" cx="32" cy="6" r="2.8"/>\n' +
+'    <circle class="n" cx="54.52" cy="45" r="2.8"/>\n' +
+'    <circle class="n" cx="9.48" cy="45" r="2.8"/>\n' +
+'    <circle cx="32" cy="32" r="2" fill="#D98340"/>\n' +
+'  </g>\n' +
+'  <text class="t" x="92" y="45" font-size="34" letter-spacing="-0.5" fill="#FFFFFF">L\u2019Ejarque</text>\n' +
+'  <text class="t" x="93.5" y="64" font-size="10.5" letter-spacing="5.4" fill="#D98340">SOFTWARE</text>\n' +
+'</svg>';
+  var codeFav =
+'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="L\u2019Ejarque Software">\n' +
+'  <rect width="32" height="32" rx="7" fill="#121417"/>\n' +
+'  <g fill="none" stroke-width="2.4" stroke-linejoin="miter" stroke-linecap="butt">\n' +
+'    <polygon points="16,4 26.39,10 26.39,22 16,28 5.61,22 5.61,10" stroke="#FFFFFF"/>\n' +
+'    <path d="M16 4V16M26.39 22L16 16L5.61 22" stroke="#D98340"/>\n' +
+'  </g>\n' +
+'</svg>';
+  var codeUse =
+'<!-- Favicon -->\n' +
+'<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n' +
+'<link rel="apple-touch-icon" href="/apple-touch-icon.png"> <!-- 180x180 -->\n\n' +
+'<!-- Logo en la cabecera -->\n' +
+'<a href="/" aria-label="L\u2019Ejarque Software, inicio">\n' +
+'  <img src="/logo-lejarque-software.svg" alt="L\u2019Ejarque Software" height="40">\n' +
+'</a>';
+  document.getElementById('c1').textContent = codeLogo;
+  document.getElementById('c2').textContent = codeFav;
+  document.getElementById('c3').textContent = codeUse;
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(btn){
+    btn.addEventListener('click', function(){
+      var txt = document.getElementById(btn.getAttribute('data-copy')).textContent;
+      var done = function(){ btn.textContent = 'Copiado'; setTimeout(function(){ btn.textContent = 'Copiar'; }, 1600); };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt).then(done, function(){ sel(); }); }
+        else { sel(); }
+      } catch(e){ sel(); }
+      function sel(){
+        var r = document.createRange(); r.selectNodeContents(document.getElementById(btn.getAttribute('data-copy')));
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Seleccionado';
+      }
+    });
+  });
+
+  // ---- Tema ----
+  var btn = document.getElementById('themeBtn'), root = document.documentElement;
+  function isLight(){
+    var t = root.getAttribute('data-theme');
+    if (t) return t === 'light';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  }
+  function label(){ btn.textContent = isLight() ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'; }
+  function recolorHero(){
+    var l = isLight();
+    put('hero', lockup(l?'#121417':'#FFFFFF', l?'#B8621F':'#D98340', l?'#FFFFFF':'#121417'));
+  }
+  btn.addEventListener('click', function(){ root.setAttribute('data-theme', isLight() ? 'dark' : 'light'); label(); recolorHero(); });
+  label(); recolorHero();
+})();
+</script>
+</body>
+</html>

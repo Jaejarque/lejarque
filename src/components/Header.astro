@@ -1,0 +1,602 @@
+---
+import Logo from "./Logo.astro";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+---
+
+<header class="site-header" id="mainHeader">
+  <div class="header-inner container">
+    <!-- Logotipo principal -->
+    <div class="header-brand">
+      <Logo height={38} />
+    </div>
+
+    <!-- Navegación desktop -->
+    <nav class="header-nav" aria-label="Navegación principal">
+      <ul class="nav-list">
+        <li><a href="/#servicios" class="nav-link">{t.nav.services}</a></li>
+        <li><a href="/#soluciones" class="nav-link">{t.nav.solutions}</a></li>
+        <li><a href="/#proyectos" class="nav-link">{t.nav.projects}</a></li>
+        <li><a href="/#proceso" class="nav-link">{t.nav.process}</a></li>
+        <li><a href="/#nosotros" class="nav-link">{t.nav.about}</a></li>
+        <li><a href="/#cotizador" class="nav-link">{t.nav.estimator}</a></li>
+        <li><a href="/#faq" class="nav-link">FAQ</a></li>
+        <li><a href="/#contacto" class="nav-link">{t.nav.contact}</a></li>
+        <li><a href="/marca" class="nav-link nav-link-subtle">{t.nav.brand}</a></li>
+      </ul>
+    </nav>
+
+    <!-- Controles y acciones -->
+    <div class="header-actions">
+      <!-- Botón Paleta de Comandos (Ctrl+K) -->
+      <button
+        type="button"
+        class="cmd-trigger-btn"
+        id="cmdTriggerBtn"
+        aria-label="Abrir paleta de comandos (Ctrl+K)"
+        title="Abrir paleta de comandos (Ctrl+K)"
+      >
+        <span class="cmd-icon" aria-hidden="true">⌘</span>
+        <span class="cmd-key">K</span>
+      </button>
+
+      <!-- Selector de tema (Oscuro / Claro / Sistema) -->
+      <div class="theme-selector-wrap">
+        <button
+          type="button"
+          class="theme-toggle-btn"
+          id="themeToggleBtn"
+          aria-label={t.nav.themeToggle}
+          title="Cambiar tema visual"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <svg class="theme-icon icon-dark" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg class="theme-icon icon-light" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+        <div class="theme-menu" id="themeMenu" role="menu" aria-label="Seleccionar tema">
+          <button type="button" class="theme-menu-item" data-theme-val="dark" role="menuitem">
+            <span class="dot"></span> Modo oscuro
+          </button>
+          <button type="button" class="theme-menu-item" data-theme-val="light" role="menuitem">
+            <span class="dot"></span> Modo claro
+          </button>
+          <button type="button" class="theme-menu-item" data-theme-val="system" role="menuitem">
+            <span class="dot"></span> Sistema
+          </button>
+        </div>
+      </div>
+
+      <!-- Selector de idioma -->
+      <button
+        type="button"
+        class="lang-toggle-btn"
+        id="langToggleBtn"
+        aria-label="Cambiar idioma entre Español e Inglés"
+        data-current-lang={currentLang}
+      >
+        <span class="lang-code mono">{currentLang.toUpperCase()}</span>
+      </button>
+
+      <!-- CTA Principal Cotizar -->
+      <a href="/#cotizador" class="btn btn-primary header-cta">
+        <span>{t.nav.quoteCta}</span>
+      </a>
+
+      <!-- Botón Hamburguesa móvil -->
+      <button
+        type="button"
+        class="mobile-menu-btn"
+        id="mobileMenuBtn"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="mobileNavModal"
+      >
+        <span class="bar bar-1"></span>
+        <span class="bar bar-2"></span>
+        <span class="bar bar-3"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menú móvil a pantalla completa (Accesible por teclado) -->
+  <div class="mobile-nav-modal" id="mobileNavModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú principal móvil">
+    <div class="mobile-nav-head container">
+      <Logo height={32} />
+      <button type="button" class="mobile-close-btn" id="mobileCloseBtn" aria-label="Cerrar menú">
+        ✕
+      </button>
+    </div>
+    <div class="mobile-nav-body container">
+      <ul class="mobile-nav-links">
+        <li><a href="/#servicios" class="mobile-link"><span>01</span> {t.nav.services}</a></li>
+        <li><a href="/#soluciones" class="mobile-link"><span>02</span> {t.nav.solutions}</a></li>
+        <li><a href="/#proyectos" class="mobile-link"><span>03</span> {t.nav.projects}</a></li>
+        <li><a href="/#proceso" class="mobile-link"><span>04</span> {t.nav.process}</a></li>
+        <li><a href="/#nosotros" class="mobile-link"><span>05</span> {t.nav.about}</a></li>
+        <li><a href="/#cotizador" class="mobile-link"><span>06</span> {t.nav.estimator}</a></li>
+        <li><a href="/#faq" class="mobile-link"><span>07</span> FAQ</a></li>
+        <li><a href="/#contacto" class="mobile-link"><span>08</span> {t.nav.contact}</a></li>
+        <li><a href="/marca" class="mobile-link"><span>09</span> {t.nav.brand}</a></li>
+      </ul>
+      <div class="mobile-nav-footer">
+        <a href="/#cotizador" class="btn btn-primary btn-block mobile-cta-btn">
+          {t.nav.quoteCta}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background-color: var(--bg);
+    border-bottom: var(--border-width) solid var(--line);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .header-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Desktop nav */
+  .header-nav {
+    display: none;
+  }
+
+  @media (min-width: 980px) {
+    .header-nav {
+      display: block;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 22px;
+  }
+
+  .nav-link {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-soft);
+    letter-spacing: -0.01em;
+    padding: 6px 0;
+    position: relative;
+    transition: color 0.15s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--accent-hi);
+  }
+
+  .nav-link-subtle {
+    color: var(--text-mute);
+    border-bottom: 1px dashed var(--line);
+  }
+
+  /* Acciones header */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Trigger Paleta de comandos */
+  .cmd-trigger-btn {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text-mute);
+    padding: 6px 10px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    min-height: 36px;
+    transition: all 0.15s ease;
+  }
+
+  @media (min-width: 820px) {
+    .cmd-trigger-btn {
+      display: inline-flex;
+    }
+  }
+
+  .cmd-trigger-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent-hi);
+  }
+
+  /* Selector de tema */
+  .theme-selector-wrap {
+    position: relative;
+  }
+
+  .theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text-soft);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .theme-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .icon-light {
+    display: none;
+  }
+  :root[data-theme="light"] .icon-dark {
+    display: none;
+  }
+  :root[data-theme="light"] .icon-light {
+    display: block;
+  }
+
+  .theme-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xs);
+    padding: 6px;
+    min-width: 140px;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+  }
+
+  .theme-menu.is-open {
+    display: flex;
+  }
+
+  .theme-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--text-soft);
+    padding: 8px 10px;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: var(--radius-xs);
+  }
+
+  .theme-menu-item:hover {
+    background: var(--surface-active);
+    color: var(--accent);
+  }
+
+  .theme-menu-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+
+  /* Selector de idioma */
+  .lang-toggle-btn {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text-soft);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+
+  .lang-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Header CTA */
+  .header-cta {
+    display: none;
+    padding: 8px 16px;
+    font-size: 13.5px;
+    min-height: 36px;
+  }
+
+  @media (min-width: 680px) {
+    .header-cta {
+      display: inline-flex;
+    }
+  }
+
+  /* Hamburguesa móvil */
+  .mobile-menu-btn {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+  }
+
+  @media (min-width: 980px) {
+    .mobile-menu-btn {
+      display: none;
+    }
+  }
+
+  .mobile-menu-btn .bar {
+    width: 100%;
+    height: 1.5px;
+    background-color: var(--text);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  /* Modal menú móvil */
+  .mobile-nav-modal {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  }
+
+  .mobile-nav-modal.is-active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-nav-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-close-btn {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+  }
+
+  .mobile-nav-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    overflow-y: auto;
+  }
+
+  .mobile-nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mobile-link {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-link span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  .mobile-nav-footer {
+    padding-top: 24px;
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    // ------------------------------------------------------------------------
+    // GESTIÓN DEL TEMA (Oscuro / Claro / Sistema)
+    // ------------------------------------------------------------------------
+    var root = document.documentElement;
+    var themeToggleBtn = document.getElementById("themeToggleBtn");
+    var themeMenu = document.getElementById("themeMenu");
+
+    function getThemePreference() {
+      return localStorage.getItem("lejarque_theme") || "dark";
+    }
+
+    function setTheme(theme) {
+      if (document.startViewTransition) {
+        document.startViewTransition(function () {
+          applyTheme(theme);
+        });
+      } else {
+        applyTheme(theme);
+      }
+    }
+
+    function applyTheme(theme) {
+      if (theme === "system") {
+        root.removeAttribute("data-theme");
+        localStorage.removeItem("lejarque_theme");
+      } else {
+        root.setAttribute("data-theme", theme);
+        localStorage.setItem("lejarque_theme", theme);
+      }
+      updateThemeMenuHighlight();
+    }
+
+    function updateThemeMenuHighlight() {
+      var current = localStorage.getItem("lejarque_theme") || "system";
+      var items = document.querySelectorAll(".theme-menu-item");
+      items.forEach(function (btn) {
+        var val = btn.getAttribute("data-theme-val");
+        if (val === current) {
+          btn.style.color = "var(--accent)";
+        } else {
+          btn.style.color = "";
+        }
+      });
+    }
+
+    if (themeToggleBtn && themeMenu) {
+      themeToggleBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var isOpen = themeMenu.classList.toggle("is-open");
+        themeToggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!themeMenu.contains(e.target) && e.target !== themeToggleBtn) {
+          themeMenu.classList.remove("is-open");
+          themeToggleBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      document.querySelectorAll(".theme-menu-item").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var themeVal = btn.getAttribute("data-theme-val");
+          setTheme(themeVal);
+          themeMenu.classList.remove("is-open");
+          themeToggleBtn.setAttribute("aria-expanded", "false");
+        });
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // SELECTOR DE IDIOMA
+    // ------------------------------------------------------------------------
+    var langBtn = document.getElementById("langToggleBtn");
+    if (langBtn) {
+      langBtn.addEventListener("click", function () {
+        var current = localStorage.getItem("lejarque_lang") || "es";
+        var next = current === "es" ? "en" : "es";
+        localStorage.setItem("lejarque_lang", next);
+        var url = new URL(window.location.href);
+        url.searchParams.set("lang", next);
+        window.location.href = url.toString();
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // MENÚ MÓVIL (Full-screen con Focus Trap y ESC key)
+    // ------------------------------------------------------------------------
+    var mobileBtn = document.getElementById("mobileMenuBtn");
+    var mobileModal = document.getElementById("mobileNavModal");
+    var mobileClose = document.getElementById("mobileCloseBtn");
+
+    function openMobileMenu() {
+      if (!mobileModal) return;
+      mobileModal.classList.add("is-active");
+      mobileModal.setAttribute("aria-hidden", "false");
+      mobileBtn.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      if (mobileClose) mobileClose.focus();
+    }
+
+    function closeMobileMenu() {
+      if (!mobileModal) return;
+      mobileModal.classList.remove("is-active");
+      mobileModal.setAttribute("aria-hidden", "true");
+      mobileBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      if (mobileBtn) mobileBtn.focus();
+    }
+
+    if (mobileBtn && mobileModal && mobileClose) {
+      mobileBtn.addEventListener("click", openMobileMenu);
+      mobileClose.addEventListener("click", closeMobileMenu);
+
+      mobileModal.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", closeMobileMenu);
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && mobileModal.classList.contains("is-active")) {
+          closeMobileMenu();
+        }
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // TRIGGER COMANDO CTRL+K
+    // ------------------------------------------------------------------------
+    var cmdTrigger = document.getElementById("cmdTriggerBtn");
+    if (cmdTrigger) {
+      cmdTrigger.addEventListener("click", function () {
+        window.dispatchEvent(new CustomEvent("open-command-palette"));
+      });
+    }
+  })();
+</script>

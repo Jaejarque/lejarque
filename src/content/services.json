@@ -1,0 +1,146 @@
+[
+  {
+    "id": "software-a-medida",
+    "number": "01",
+    "title": "Software a medida y sistemas de misión crítica",
+    "shortDescription": "Diseño y desarrollo integral de plataformas corporativas sin dependencias opacas, pensadas para durabilidad decenal y alta concurrencia.",
+    "deliverables": [
+      "Código fuente modular con cobertura de pruebas >85%",
+      "Arquitectura desacoplada en microservicios o monolito modular",
+      "Manuales operativos, runbooks y diagramas C4 completos",
+      "Pipelines CI/CD automatizados y scripts de aprovisionamiento"
+    ],
+    "technologies": ["TypeScript", "Go", "Python", "Rust", "PostgreSQL", "Docker", "Linux"],
+    "useCases": [
+      "Plataformas de gestión operativa para plantas industriales",
+      "Motores transaccionales de alto rendimiento",
+      "Sistemas de facturación y liquidación para grandes volúmenes"
+    ]
+  },
+  {
+    "id": "aplicaciones-web-moviles",
+    "number": "02",
+    "title": "Aplicaciones web y móviles de alto rendimiento",
+    "shortDescription": "Interfaces de usuario estrictas, ultra veloces y accesibles, conectadas a backends distribuidos en tiempo real y con soporte offline nativo.",
+    "deliverables": [
+      "Aplicaciones web progresivas (PWA) con Lighthouse >95",
+      "Aplicaciones móviles híbridas o nativas multiplataforma",
+      "Design System vectorial y componentes reutilizables",
+      "Gestión de estado offline-first y sincronización de datos"
+    ],
+    "technologies": ["Astro", "React", "TypeScript", "React Native / Flutter", "WebSockets", "IndexedDB"],
+    "useCases": [
+      "Portales B2B para clientes y proveedores industriales",
+      "Aplicaciones de campo para operarios sin conexión constante",
+      "Consolas de supervisión técnica en tiempo real"
+    ]
+  },
+  {
+    "id": "arquitectura-datos-bi",
+    "number": "03",
+    "title": "Arquitectura e ingeniería de datos (ETL, Lakehouse, BI)",
+    "shortDescription": "Consolidación de flujos de datos dispersos en arquitecturas lakehouse y data warehouses auditables, garantizando una única fuente de verdad verídica.",
+    "deliverables": [
+      "Pipelines de ingesta continua (streaming) y procesamiento batch",
+      "Modelado dimensional formal (Star / Snowflake / Data Vault)",
+      "Capas semánticas y dashboards ejecutivos en tiempo real",
+      "Contratos de datos (Data Contracts) y validación de esquemas"
+    ],
+    "technologies": ["ClickHouse", "PostgreSQL", "DuckDB", "Apache Kafka", "dbt", "Python", "Polars"],
+    "useCases": [
+      "Monitoreo de telemetría de activos físicos en tiempo real",
+      "Consolidación analítica multisede y reportes regulatorios",
+      "Detección predictiva de cuellos de botella operativos"
+    ]
+  },
+  {
+    "id": "integraciones-apis",
+    "number": "04",
+    "title": "Integraciones industriales y ecosistemas de APIs",
+    "shortDescription": "Interconexión bidireccional entre sistemas heterogéneos, ERPs corporativos, sensores de planta y servicios de terceros mediante contratos seguros.",
+    "deliverables": [
+      "APIs RESTful y gRPC formalmente tipadas con especificación OpenAPI",
+      "Gateways de integración con control de tasa y reintentos exponenciales",
+      "Conectores certificados con SAP, Oracle, Salesforce y sistemas legacy",
+      "Trazabilidad distribuida con OpenTelemetry"
+    ],
+    "technologies": ["gRPC", "Protobuf", "REST / OpenAPI", "MQTT", "RabbitMQ", "Redis", "OpenTelemetry"],
+    "useCases": [
+      "Sincronización entre ERP central y maquinaria de planta (SCADA/PLC)",
+      "Intercambio seguro de datos con aduanas, bancos o entes públicos",
+      "Orquestación de microservicios con colas de mensajería tolerantes a fallos"
+    ]
+  },
+  {
+    "id": "modernizacion-legacy",
+    "number": "05",
+    "title": "Modernización y migración de sistemas legacy",
+    "shortDescription": "Evolución controlada de código antiguo y bases de datos monolíticas sin detener la operación del negocio, aplicando patrones Strangler Fig.",
+    "deliverables": [
+      "Auditoría forense de código fuente y base de datos existente",
+      "Estrategia de desacoplamiento progresivo sin caídas de servicio (zero-downtime)",
+      "Scripts de saneamiento, migración y verificación de datos",
+      "Capa de coexistencia temporal entre sistema viejo y nuevo"
+    ],
+    "technologies": ["Docker", "Kubernetes", "PostgreSQL", "TypeScript", "Python", "Reverse Engineering"],
+    "useCases": [
+      "Migración de bases de datos relacionales antiguas a la nube",
+      "Reescritura modular de aplicaciones monolíticas en PHP/Visual Basic/Cobol",
+      "Actualización de stacks de seguridad y eliminación de deuda técnica"
+    ]
+  },
+  {
+    "id": "automatizacion-ia",
+    "number": "06",
+    "title": "Automatización e IA aplicada a procesos industriales",
+    "shortDescription": "Integración pragmática de modelos de lenguaje, visión por computadora y algoritmos deterministas para erradicar tareas repetitivas manuales.",
+    "deliverables": [
+      "Agentes de software para extracción y validación documental",
+      "Modelos locales (on-premise) para garantizar privacidad de datos",
+      "Flujos RPA asistidos por LLMs con validación humana en el loop",
+      "Monitoreo de desvío de modelos (drift) y métricas de inferencia"
+    ],
+    "technologies": ["Python", "PyTorch", "LangChain / LlamaIndex", "Ollama", "Tesseract / OCR", "FastAPI"],
+    "useCases": [
+      "Clasificación y cotejo automatizado de remitos y facturas complejas",
+      "Asistentes técnicos inteligentes sobre manuales y planos de planta",
+      "Inspección automatizada de anomalías en lecturas de sensores"
+    ]
+  },
+  {
+    "id": "devops-seguridad-qa",
+    "number": "07",
+    "title": "DevOps, ciberseguridad y QA automatizado",
+    "shortDescription": "Infraestructura definida como código reproducible, pipelines de despliegue continuo con pruebas automatizadas y defensas en profundidad.",
+    "deliverables": [
+      "Infraestructura declarativa con Terraform y Ansible",
+      "Suites de pruebas E2E, de carga y de regresión automatizadas",
+      "Análisis estático de seguridad (SAST/DAST) y escaneo de vulnerabilidades",
+      "Métricas DORA y tableros de observabilidad centralizada"
+    ],
+    "technologies": ["Terraform", "Kubernetes", "GitHub Actions", "Playwright", "Grafana", "Prometheus", "Trivy"],
+    "useCases": [
+      "Ambientes reproducibles de desarrollo, staging y producción en minutos",
+      "Cumplimiento de auditorías de ciberseguridad e ISO 27001",
+      "Prevención de caídas mediante pruebas de caos y monitoreo proactivo"
+    ]
+  },
+  {
+    "id": "soporte-mantenimiento",
+    "number": "08",
+    "title": "Soporte técnico, mantenimiento y evolución extendida",
+    "shortDescription": "Acompañamiento post-despliegue con Acuerdos de Nivel de Servicio (SLA) exigentes, parches preventivos y evolución continua de funcionalidades.",
+    "deliverables": [
+      "Canal de escalamiento directo con ingenieros senior asignados",
+      "Acuerdos SLA garantizados de hasta 2 horas en incidentes críticos",
+      "Actualizaciones continuas de dependencias y parches de kernel/SO",
+      "Informes mensuales de salud de infraestructura y optimización de costes"
+    ],
+    "technologies": ["PagerDuty / Opsgenie", "Grafana Cloud", "ELK Stack", "Docker", "Linux Systemd"],
+    "useCases": [
+      "Guardia pasiva 24/7 para sistemas con impacto en facturación",
+      "Refactorización iterativa trimestral para evitar deuda técnica",
+      "Gestión de capacidad y escalamiento predictivo de servidores"
+    ]
+  }
+]

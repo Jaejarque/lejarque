@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+import siteConfig from "../config/site.config";
+---
+
+<Layout
+  title={`Error 404 · Ruta no encontrada · ${siteConfig.brand.name} ${siteConfig.brand.descriptor}`}
+  description="La ruta solicitada no existe en la topología de este servidor."
+>
+  <div class="notfound-page">
+    <div class="container notfound-container">
+      <div class="notfound-card panel">
+        <div class="diagnostic-badge mono">
+          <span>DIAGNÓSTICO_RED: STATUS_404_NOT_FOUND</span>
+        </div>
+
+        <div class="notfound-visual" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="120" height="120" fill="none">
+            <polygon points="60,10 105,35 105,85 60,110 15,85 15,35" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 4" />
+            <polygon points="60,35 85,50 85,75 60,90 35,75 35,50" stroke="var(--accent)" stroke-width="2" />
+            <path d="M48,48 L72,72 M72,48 L48,72" stroke="var(--accent)" stroke-width="2.5" />
+          </svg>
+        </div>
+
+        <h1 class="notfound-title mono">404 · RUTA_NO_ENCONTRADA</h1>
+        <p class="notfound-desc">
+          El recurso solicitado no está mapeado en la topología de servicios de {siteConfig.brand.name} Software. 
+          Verifique la URL o retorne a la raíz de navegación.
+        </p>
+
+        <div class="notfound-actions">
+          <a href="/" class="btn btn-primary">
+            <span>← Retornar al inicio</span>
+          </a>
+          <a href="/#proyectos" class="btn btn-outline">
+            <span>Ver proyectos técnicos</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .notfound-page {
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+    padding: 64px 0;
+  }
+
+  .notfound-container {
+    max-width: 580px;
+    width: 100%;
+  }
+
+  .notfound-card {
+    background-color: var(--panel);
+    border: 1px solid var(--line);
+    padding: clamp(32px, 5vw, 48px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    border-radius: var(--radius-xs);
+  }
+
+  .diagnostic-badge {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px dashed var(--line);
+    background-color: var(--bg);
+  }
+
+  .notfound-visual {
+    margin: 8px 0;
+  }
+
+  .notfound-title {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .notfound-desc {
+    font-size: 14px;
+    color: var(--text-mute);
+    line-height: 1.6;
+    max-width: 44ch;
+  }
+
+  .notfound-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+    justify-content: center;
+  }
+</style>

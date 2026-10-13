@@ -1,0 +1,246 @@
+---
+import Logo from "./Logo.astro";
+import siteConfig from "../config/site.config";
+import { translations } from "../config/i18n";
+
+export interface Props {
+  currentLang?: "es" | "en";
+}
+
+const { currentLang = "es" } = Astro.props;
+const t = translations[currentLang];
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer" id="mainFooter">
+  <div class="container footer-container">
+    <div class="footer-top-grid">
+      <!-- Columna 1: Marca y descripción técnica -->
+      <div class="footer-col col-brand">
+        <Logo height={36} />
+        <p class="brand-desc-footer">
+          {siteConfig.brand.description}
+        </p>
+        <span class="rigor-badge mono">
+          {t.footer.rigor}
+        </span>
+      </div>
+
+      <!-- Columna 2: Navegación -->
+      <div class="footer-col">
+        <h4 class="col-head mono">INGENIERÍA</h4>
+        <ul class="footer-links">
+          <li><a href="/#servicios">{t.nav.services}</a></li>
+          <li><a href="/#soluciones">{t.nav.solutions}</a></li>
+          <li><a href="/#proyectos">{t.nav.projects}</a></li>
+          <li><a href="/#proceso">{t.nav.process}</a></li>
+          <li><a href="/#cotizador">{t.nav.estimator}</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Organización & Marca -->
+      <div class="footer-col">
+        <h4 class="col-head mono">ORGANIZACIÓN</h4>
+        <ul class="footer-links">
+          <li><a href="/#nosotros">{t.nav.about}</a></li>
+          <li><a href="/#faq">Preguntas Frecuentes</a></li>
+          <li><a href="/#contacto">{t.nav.contact}</a></li>
+          <li><a href="/marca" class="link-brand-system">{t.footer.brandLink}</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Contacto directo & Redes -->
+      <div class="footer-col col-contact">
+        <h4 class="col-head mono">CONTACTO</h4>
+        <div class="contact-details">
+          <p class="contact-address">{siteConfig.contact.address.street}</p>
+          <p class="contact-city">{siteConfig.contact.address.city}, {siteConfig.contact.address.country}</p>
+          <a href={`mailto:${siteConfig.contact.email}`} class="contact-email mono link-accent">
+            {siteConfig.contact.email}
+          </a>
+          <a href={`https://wa.me/${siteConfig.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" class="contact-wa mono link-accent">
+            WhatsApp: {siteConfig.contact.whatsappDisplay}
+          </a>
+        </div>
+
+        <div class="social-links-row">
+          <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+            <span class="mono">LinkedIn [EDITAR]</span>
+          </a>
+          <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+            <span class="mono">GitHub [EDITAR]</span>
+          </a>
+          <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+            <span class="mono">Instagram [EDITAR]</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra inferior legal y copyright -->
+    <div class="footer-bottom-bar">
+      <div class="copy-text mono">
+        © {currentYear} {siteConfig.brand.legalName}. {t.footer.rights}
+      </div>
+
+      <div class="legal-links">
+        <a href="/privacidad" class="legal-link">{t.footer.privacy}</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <a href="/terminos" class="legal-link">{t.footer.terms}</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--panel);
+    border-top: 1px solid var(--line);
+    padding-top: clamp(60px, 8vw, 96px);
+    padding-bottom: 40px;
+  }
+
+  .footer-top-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (min-width: 640px) {
+    .footer-top-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-top-grid {
+      grid-template-columns: 1.4fr 0.8fr 0.8fr 1.2fr;
+      gap: 48px;
+    }
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .brand-desc-footer {
+    font-size: 13.5px;
+    color: var(--text-mute);
+    line-height: 1.6;
+    max-width: 44ch;
+  }
+
+  .rigor-badge {
+    font-size: 11px;
+    color: var(--accent-ink);
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    background-color: var(--bg);
+    border-radius: var(--radius-xs);
+    align-self: flex-start;
+  }
+
+  .col-head {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links li a {
+    font-size: 13.5px;
+    color: var(--text-mute);
+    transition: color 0.15s ease;
+  }
+
+  .footer-links li a:hover {
+    color: var(--accent);
+  }
+
+  .link-brand-system {
+    color: var(--accent) !important;
+    font-weight: 500;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-mute);
+  }
+
+  .social-links-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-size: 11.5px;
+    color: var(--text-soft);
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 2px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* Barra inferior */
+  .footer-bottom-bar {
+    padding-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @media (min-width: 680px) {
+    .footer-bottom-bar {
+      flex-direction: row;
+    }
+  }
+
+  .copy-text {
+    font-size: 12px;
+    color: var(--text-mute);
+  }
+
+  .legal-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legal-link {
+    font-size: 12px;
+    color: var(--text-mute);
+    transition: color 0.15s ease;
+  }
+
+  .legal-link:hover {
+    color: var(--accent);
+  }
+
+  .sep {
+    color: var(--line);
+    font-size: 12px;
+  }
+</style>

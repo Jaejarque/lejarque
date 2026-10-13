@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import TrustStrip from "../components/TrustStrip.astro";
+import ServicesSection from "../components/ServicesSection.astro";
+import IndustriesSection from "../components/IndustriesSection.astro";
+import ProjectsGrid from "../components/ProjectsGrid.astro";
+import ProcessTimeline from "../components/ProcessTimeline.astro";
+import TechnicalPrinciples from "../components/TechnicalPrinciples.astro";
+import AboutSection from "../components/AboutSection.astro";
+import QuotationWizard from "../components/QuotationWizard.astro";
+import FaqSection from "../components/FaqSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import siteConfig from "../config/site.config";
+
+// Idioma por defecto 'es' (puede alternarse mediante el selector)
+const currentLang = "es";
+---
+
+<Layout
+  title={`${siteConfig.brand.name} ${siteConfig.brand.descriptor} · ${siteConfig.brand.tagline}`}
+  description={siteConfig.brand.description}
+  lang={currentLang}
+>
+  <!-- 1. Hero arquitectónico con isotipo ampliado -->
+  <Hero currentLang={currentLang} />
+
+  <!-- 2. Franja de confianza técnica y estándares -->
+  <TrustStrip currentLang={currentLang} />
+
+  <!-- 3. Lista editorial de servicios de ingeniería -->
+  <ServicesSection currentLang={currentLang} />
+
+  <!-- 4. Soluciones por industria a escala industrial -->
+  <IndustriesSection currentLang={currentLang} />
+
+  <!-- 5. Portafolio de proyectos y estudios de caso -->
+  <ProjectsGrid currentLang={currentLang} />
+
+  <!-- 6. Línea de tiempo y metodología de proceso -->
+  <ProcessTimeline currentLang={currentLang} />
+
+  <!-- 7. Principios técnicos no negociables -->
+  <TechnicalPrinciples currentLang={currentLang} />
+
+  <!-- 8. Organización y fundadores -->
+  <AboutSection currentLang={currentLang} />
+
+  <!-- 9. Cotizador interactivo paramétrico (Módulo central) -->
+  <QuotationWizard currentLang={currentLang} />
+
+  <!-- 10. Acordeón accesible de preguntas frecuentes -->
+  <FaqSection currentLang={currentLang} />
+
+  <!-- 11. Contacto técnico, mapa OSM y datos estructurados -->
+  <ContactSection currentLang={currentLang} />
+</Layout>

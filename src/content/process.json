@@ -1,0 +1,74 @@
+[
+  {
+    "step": "01",
+    "name": "Descubrimiento y Formalización",
+    "timeline": "1 a 2 semanas",
+    "summary": "Inmersión técnica profunda en el dominio del negocio, análisis de requerimientos no funcionales, volumetría de datos y restricciones de infraestructura.",
+    "deliverables": [
+      "Documento de especificación de requerimientos de software (SRS)",
+      "Matriz de restricciones técnicas y riesgos",
+      "Definición formal de Acuerdos de Nivel de Servicio (SLA / SLO)",
+      "Presupuesto cerrado por fases y cronograma de hitos"
+    ]
+  },
+  {
+    "step": "02",
+    "name": "Arquitectura y Modelado de Datos",
+    "timeline": "2 a 3 semanas",
+    "summary": "Diseño de la topología de sistemas, contratos de interfaces (APIs / eventos), modelos entidad-relación y pruebas de concepto de componentes críticos.",
+    "deliverables": [
+      "Diagramas de arquitectura C4 (Contexto, Contenedores, Componentes)",
+      "Esquemas de bases de datos normalizados o dimensionales",
+      "Especificaciones OpenAPI / Protobuf versionadas",
+      "Prototipo técnico navegable de la interfaz principal"
+    ]
+  },
+  {
+    "step": "03",
+    "name": "Desarrollo Iterativo por Sprints",
+    "timeline": "4 a 16 semanas",
+    "summary": "Construcción modular en ciclos quincenales. Cada iteración produce código funcional desplegado en ambiente de staging para validación continua.",
+    "deliverables": [
+      "Releases bi-semanales testeables en ambiente de pruebas",
+      "Código fuente versionado con commits atómicos auditables",
+      "Reuniones quincenales de demostración técnica",
+      "Registro transparente de horas y avance en tablero Kanban"
+    ]
+  },
+  {
+    "step": "04",
+    "name": "Calidad, Pentesting y Homologación",
+    "timeline": "2 a 3 semanas",
+    "summary": "Batería exhaustiva de pruebas de carga, análisis estático y dinámico de vulnerabilidades (SAST/DAST) y auditoría de accesibilidad WCAG.",
+    "deliverables": [
+      "Informe de pruebas de estrés y capacidad máxima de transacciones",
+      "Reporte de seguridad y corrección de hallazgos OWASP",
+      "Acta formal de homologación técnica y pruebas de usuario",
+      "Validación de planes de contingencia y rollback"
+    ]
+  },
+  {
+    "step": "05",
+    "name": "Despliegue Industrial y Puesta en Marcha",
+    "timeline": "1 a 2 semanas",
+    "summary": "Paso a producción coordinado mediante despliegues graduales (Blue/Green o Canary), migración final de datos y acompañamiento en vivo.",
+    "deliverables": [
+      "Infraestructura como código aprovisionada en producción",
+      "Plan de migración y verificación de integridad de datos",
+      "Tableros de observabilidad y alertas de métricas en vivo",
+      "Runbooks de operación y manuales para administradores"
+    ]
+  },
+  {
+    "step": "06",
+    "name": "Evolución Continua y Soporte SLA",
+    "timeline": "Ciclo continuo",
+    "summary": "Monitoreo proactivo de estabilidad, optimización de costos de infraestructura y desarrollo iterativo de nuevas capacidades de negocio.",
+    "deliverables": [
+      "Mesa técnica de escalamiento con ingenieros asignados",
+      "Informes mensuales de disponibilidad y rendimiento",
+      "Actualizaciones periódicas de seguridad y parches de software",
+      "Roadmap trimestral de evolución tecnológica"
+    ]
+  }
+]
